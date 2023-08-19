@@ -1,46 +1,54 @@
 <template>
-  <div>
-    <n-card title="New Post">
-      <div>
-        <n-input
-          v-model:value="payload.content"
-          type="textarea"
-          placeholder="What's happened?"
-        />
-      </div>
+  <div class="w-[720px]">
+    <n-card title="New Post" size="large">
+      <n-form @submit.prevent="submit">
+        <div>
+          <n-input
+            v-model:value="payload.content"
+            type="textarea"
+            placeholder="What's happened?"
+          />
+        </div>
 
-      <div class="mt-2 flex gap-2">
-        <n-select :options="options" v-model:value="payload.type" class="w-[160px]" />
+        <div class="mt-2" v-if="payload.belong_to != null">
+          <n-alert class="post-reply-tips" :show-icon="false" closable @close="payload.belong_to = null">
+            You're replying post #{{ payload.belong_to?.id }}
+          </n-alert>
+        </div>
 
-        <n-dynamic-tags v-model:value="payload.tags" class="post-tags" />
-      </div>
+        <div class="mt-2 flex gap-2">
+          <n-select :options="options" v-model:value="payload.type" class="w-[160px]" />
 
-      <div class="flex justify-between mt-5">
-        <n-space>
-          <n-tooltip trigger="hover" placement="bottom">
-            <template #trigger>
-              <n-button circle class="rounded-[3px]" @click="popups.attachments = true">
-                <template #icon>
-                  <n-icon :component="AttachFileRound" />
-                </template>
-              </n-button>
-            </template>
-            Attachments
-          </n-tooltip>
-          <n-tooltip trigger="hover" placement="bottom">
-            <template #trigger>
-              <n-button circle class="rounded-[3px]" @click="popups.schedule = true">
-                <template #icon>
-                  <n-icon :component="ScheduleRound" />
-                </template>
-              </n-button>
-            </template>
-            Schedule
-          </n-tooltip>
-        </n-space>
+          <n-dynamic-tags v-model:value="payload.tags" class="post-tags" />
+        </div>
 
-        <n-button type="primary" :loading="submitting" @click="submit">Publish</n-button>
-      </div>
+        <div class="flex justify-between mt-5">
+          <n-space>
+            <n-tooltip trigger="hover" placement="bottom">
+              <template #trigger>
+                <n-button circle class="rounded-[3px]" @click="popups.attachments = true">
+                  <template #icon>
+                    <n-icon :component="AttachFileRound" />
+                  </template>
+                </n-button>
+              </template>
+              Attachments
+            </n-tooltip>
+            <n-tooltip trigger="hover" placement="bottom">
+              <template #trigger>
+                <n-button circle class="rounded-[3px]" @click="popups.schedule = true">
+                  <template #icon>
+                    <n-icon :component="ScheduleRound" />
+                  </template>
+                </n-button>
+              </template>
+              Schedule
+            </n-tooltip>
+          </n-space>
+
+          <n-button type="primary" :loading="submitting" attr-type="submit">Publish</n-button>
+        </div>
+      </n-form>
     </n-card>
 
     <n-modal v-model:show="popups.attachments" display-directive="show">
@@ -86,11 +94,13 @@ import { reactive, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { http } from "@/utils/http"
 
+const emits = defineEmits(["submitted"])
+
+defineExpose({ reply })
+
 const { t } = useI18n()
 
 const $message = useMessage()
-
-const emits = defineEmits(["submitted"])
 
 const submitting = ref(false)
 
@@ -108,6 +118,7 @@ const payload = reactive<any>({
   content: "",
   tags: [],
   attachments: [],
+  belong_to: null,
   published_at: null
 })
 
@@ -120,7 +131,8 @@ async function submit() {
       content: payload.content,
       tags: payload.tags,
       attachments: payload.attachments,
-      published_at: new Date(payload.published_at),
+      belong_to: payload.belong_to?.id ?? undefined,
+      published_at: new Date(payload.published_at)
     })
 
     reset()
@@ -166,9 +178,13 @@ function attach({ file, data, headers, action, onFinish, onError, onProgress }: 
       onFinish()
     })
     .catch((error) => {
-      $message.success(error.message)
+      $message.error(t("common.feedback.unknown-error", [error.response.body ?? error.message]))
       onError()
     })
+}
+
+function reply(parent: any) {
+  payload.belong_to = parent
 }
 
 function reset() {
@@ -176,6 +192,7 @@ function reset() {
   payload.content = ""
   payload.tags = []
   payload.attachments = []
+  payload.belong_to = null
   payload.published_at = null
 }
 </script>
@@ -188,5 +205,19 @@ function reset() {
 .post-tags .n-tag {
   gap: 4px;
   padding: 0 12px;
+}
+
+.post-reply-tips {
+  height: 34px;
+  display: flex;
+  align-items: center;
+}
+
+.post-reply-tips .n-alert-body {
+  padding: 0 12px;
+}
+
+.post-reply-tips .n-alert__close {
+  margin: 6.5px 12px 0 0;
 }
 </style>

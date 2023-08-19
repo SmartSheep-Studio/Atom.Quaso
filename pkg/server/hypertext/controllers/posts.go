@@ -41,10 +41,14 @@ func (v *PostController) Map(router *fiber.App) {
 }
 
 func (v *PostController) list(c *fiber.Ctx) error {
-	tx := v.db.Offset(c.QueryInt("skip", 0)).Limit(20)
+	tx := v.db.Offset(c.QueryInt("skip", 0)).Limit(10)
 
 	tx.Where("published_at <= ?", time.Now())
 	tx.Order("created_at desc")
+
+	if c.Query("type", "none") != "none" {
+		tx.Where("type = ?", c.Query("type"))
+	}
 
 	var postCount int64
 	var posts []models.Post
@@ -78,6 +82,7 @@ func (v *PostController) get(c *fiber.Ctx) error {
 	tx := v.db.Preload("Comments")
 
 	tx.Where("id = ?", c.Params("post"))
+	tx.Where("published_at <= ?", time.Now())
 
 	var post models.Post
 	if err := tx.First(&post).Error; err != nil {
@@ -95,6 +100,7 @@ func (v *PostController) create(c *fiber.Ctx) error {
 		Content     string     `json:"content" validate:"required"`
 		Tags        []string   `json:"tags"`
 		Attachments []string   `json:"attachments"`
+		BelongTo    *uint      `json:"belong_to"`
 		PublishedAt *time.Time `json:"published_at"`
 	}
 
@@ -110,6 +116,15 @@ func (v *PostController) create(c *fiber.Ctx) error {
 		PublishedAt: lo.Ternary(req.PublishedAt == nil, time.Now(), lo.FromPtr(req.PublishedAt)),
 		IpAddress:   c.IP(),
 		AccountID:   u.ID,
+	}
+
+	if req.BelongTo != nil {
+		var parentPost models.Post
+		if err := v.db.Where("id = ?", req.BelongTo).First(&parentPost).Error; err != nil {
+			return hyperutils.ErrorParser(err)
+		} else {
+			post.BelongID = lo.ToPtr(parentPost.ID)
+		}
 	}
 
 	if err := v.db.Save(&post).Error; err != nil {

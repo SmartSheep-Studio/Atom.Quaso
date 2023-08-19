@@ -1,8 +1,8 @@
 <template>
-  <div class="lg:container">
-    <n-grid item-responsive responsive="screen" :x-gap="16" :y-gap="16">
+  <div class="lg:container px-2">
+    <n-grid item-responsive responsive="screen" :x-gap="8" :y-gap="8">
       <n-gi span="0 m:6">
-        <div class="sticky top-0">
+        <div>
           <div class="flex gap-2 items-center px-4 pt-4 pb-2">
             <div>
               <img :src="Logo" width="64" height="64" />
@@ -52,9 +52,9 @@ const menuOptions: Ref<MenuOption[]> = computed(() =>
   $principal.isSigned
     ? [
       {
-        label: () => h(RouterLink, { to: { name: "landing" } }, { default: () => t("nav.plaza") }),
+        label: () => h(RouterLink, { to: { name: "plaza" } }, { default: () => t("nav.plaza") }),
         icon: renderIcon(ExploreRound),
-        key: "landing"
+        key: "plaza"
       }
     ]
     : []
