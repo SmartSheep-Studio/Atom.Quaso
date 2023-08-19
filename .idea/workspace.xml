@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":sparkles: Add more features" />
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":tada: Init">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/landing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/landing.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -108,7 +111,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value=":tada: Start develop!" />
     <MESSAGE value=":sparkles: Add more features" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Add more features" />
+    <MESSAGE value=":tada: Init" />
+    <option name="LAST_COMMIT_MESSAGE" value=":tada: Init" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
