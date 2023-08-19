@@ -1,0 +1,23 @@
+debug = true
+instance_id = "86ad4f61-8bff-4bf8-9a93-8da7813a722c"
+base_url = "http://localhost:9446"
+endpoints = "http://localhost:9443"
+mount_key = "WGqNUFNhED"
+
+[paths]
+user_contents = "dist/uploads"
+
+[security]
+sessions_alive_duration = "720h"
+
+[hypertext]
+bind_addr = ":9447"
+max_body_size = 4194304
+max_request_count = 30
+[hypertext.advanced]
+prefork = false
+
+[datasource]
+[datasource.master]
+table_prefix = "quaso_"
+dsn = "host=localhost user=postgres password=password dbname=quaso port=5432 sslmode=disable timezone=Asia/Shanghai"
