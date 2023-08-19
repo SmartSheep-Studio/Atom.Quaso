@@ -1,7 +1,7 @@
 <template>
   <div>
     <n-spin :show="reverting">
-      <n-list bordered v-if="data.posts.length > 0">
+      <n-list bordered v-if="data.posts.length > 0" hoverable clickable>
         <n-list-item v-for="item in data.posts">
           <n-thing :title="data.related_authors[item.account_id].nickname">
             <template #description>
@@ -31,9 +31,8 @@
             <div>{{ item.content }}</div>
 
             <n-space vertical class="mt-4">
-              <n-card content-style="padding: 0" class="max-w-[800px]">
+              <n-card content-style="padding: 0" class="max-w-[800px]" v-for="img in item.attachments">
                 <n-image
-                  v-for="img in item.attachments"
                   object-fit="cover"
                   class="post-image"
                   :src="`/srv/subapps/quaso${img}`"

@@ -5,8 +5,15 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "landing",
-      component: () => import("@/views/landing.vue"),
+      name: "layout.main",
+      component: () => import("@/layouts/main-layout.vue"),
+      children: [
+        {
+          path: "/",
+          name: "landing",
+          component: () => import("@/views/landing.vue"),
+        },
+      ]
     },
   ],
 })
