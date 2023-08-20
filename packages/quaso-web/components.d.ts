@@ -7,10 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AttachmentPlayer: typeof import('./src/components/player/attachment-player.vue')['default']
     Gatekeeper: typeof import('./src/components/global/gatekeeper.vue')['default']
     NAlert: typeof import('naive-ui')['NAlert']
     NBadge: typeof import('naive-ui')['NBadge']
     NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']
+    'NBreadcrumbData?.post?': typeof import('naive-ui')['NBreadcrumbData?.post?']
     NBreadcrumbItem: typeof import('naive-ui')['NBreadcrumbItem']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']

@@ -41,7 +41,7 @@ func (v *PostController) Map(router *fiber.App) {
 }
 
 func (v *PostController) list(c *fiber.Ctx) error {
-	tx := v.db.Offset(c.QueryInt("skip", 0)).Limit(10)
+	tx := v.db.Offset(c.QueryInt("skip", 0)).Limit(5)
 
 	tx.Where("published_at <= ?", time.Now())
 	tx.Order("created_at desc")
@@ -67,14 +67,22 @@ func (v *PostController) list(c *fiber.Ctx) error {
 
 	return c.JSON(fiber.Map{
 		"total": postCount,
-		"posts": posts,
-		"related_authors": func() map[uint]models.Account {
-			data := make(map[uint]models.Account)
-			for _, item := range authors {
-				data[item.ID] = item
+		"posts": lo.Map(posts, func(item models.Post, index int) map[string]any {
+			data := hyperutils.CovertStructToMap(item)
+
+			data["account"], _ = lo.Find(authors, func(v models.Account) bool {
+				return v.ID == item.AccountID
+			})
+
+			var commentCount int64
+			if err := v.db.Model(&models.Post{}).Where("belong_id = ?", item.ID).Count(&commentCount).Error; err != nil {
+				data["comment_count"] = 0
+			} else {
+				data["comment_count"] = commentCount
 			}
+
 			return data
-		}(),
+		}),
 	})
 }
 
@@ -87,9 +95,51 @@ func (v *PostController) get(c *fiber.Ctx) error {
 	var post models.Post
 	if err := tx.First(&post).Error; err != nil {
 		return hyperutils.ErrorParser(err)
-	} else {
-		return c.JSON(post)
 	}
+
+	var commentAuthors []models.Account
+	if err := v.db.Where("id IN ?", lo.Union(lo.Map(post.Comments, func(item models.Post, index int) uint {
+		return item.AccountID
+	}))).Find(&commentAuthors).Error; err != nil {
+		return hyperutils.ErrorParser(err)
+	}
+
+	return c.JSON(func() map[string]any {
+		data := hyperutils.CovertStructToMap(post)
+
+		var author models.Account
+		if err := v.db.Where("id = ?", post.AccountID).First(&author).Error; err != nil {
+			data["account"] = nil
+		} else {
+			data["account"] = author
+		}
+
+		var commentCount int64
+		if err := v.db.Model(&models.Post{}).Where("belong_id = ?", post.ID).Count(&commentCount).Error; err != nil {
+			data["comment_count"] = 0
+		} else {
+			data["comment_count"] = commentCount
+		}
+
+		data["comments"] = lo.Map(post.Comments, func(item models.Post, index int) map[string]any {
+			data := hyperutils.CovertStructToMap(item)
+
+			data["account"], _ = lo.Find(commentAuthors, func(v models.Account) bool {
+				return v.ID == item.AccountID
+			})
+
+			var commentCount int64
+			if err := v.db.Model(&models.Post{}).Where("belong_id = ?", item.ID).Count(&commentCount).Error; err != nil {
+				data["comment_count"] = 0
+			} else {
+				data["comment_count"] = commentCount
+			}
+
+			return data
+		})
+
+		return data
+	}())
 }
 
 func (v *PostController) create(c *fiber.Ctx) error {

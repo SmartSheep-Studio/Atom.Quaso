@@ -1,13 +1,16 @@
 <template>
   <div class="max-w-[100vw]">
-    <n-spin :show="reverting">
-      <n-list bordered v-if="data.posts.length > 0">
-        <n-list-item v-for="item in data.posts">
-          <n-thing :title="data.related_authors[item.account_id].nickname">
+    <n-spin :show="$posts.isReverting">
+      <n-list v-if="data.posts.length > 0" bordered hoverable class="rounded-none">
+        <n-list-item
+          v-for="item in data.posts"
+          @click="$router.push({ name: 'plaza.focus', params: { post: item.id } })"
+        >
+          <n-thing :title="item.account.nickname">
             <template #description>
               <n-space size="small">
                 <n-tag
-                  v-if="data.related_authors[item.account_id].user_id === $principal.account.id"
+                  v-if="item.account.user_id === $principal.account.id"
                   size="small"
                   type="warning"
                   :bordered="false"
@@ -28,38 +31,38 @@
               </n-space>
             </template>
 
-            <div>{{ item.content }}</div>
+            <div>
+              <vue-markdown :source="item.content" />
+            </div>
 
             <n-space vertical class="mt-4">
               <n-card content-style="padding: 0" class="max-w-[800px]" v-for="img in item.attachments">
-                <n-image
-                  object-fit="cover"
-                  class="post-image block"
-                  :src="`/srv/subapps/quaso${img}`"
-                />
+                <attachment-player :src="img" />
               </n-card>
             </n-space>
 
             <div class="mt-2" v-if="item.belong_id != null">
               <n-alert class="post-reply-tips" :show-icon="false">
-                This post is replying #{{ item.belong_id }}
+                This post is replying
+                <router-link :to="{ name: 'plaza.focus', params: { post: item.belong_id } }" @click.stop>
+                  #{{ item.belong_id }}
+                </router-link>
               </n-alert>
             </div>
 
             <n-card size="small" class="mb-1 mt-2" content-style="padding: 8px" embedded>
               <div class="flex justify-around">
-                <n-button quaternary size="small" @click="emits('reply', item)">
-                  <template #icon>
-                    <n-icon :component="ReplyRound" />
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <n-button quaternary size="small" @click.stop="emits('reply', item)">
+                      <template #icon>
+                        <n-icon :component="ReplyRound" />
+                      </template>
+                      {{ item.comment_count }}
+                    </n-button>
                   </template>
                   Reply
-                </n-button>
-                <n-button quaternary size="small" disabled>
-                  <template #icon>
-                    <n-icon :component="ShareRound" />
-                  </template>
-                  Share
-                </n-button>
+                </n-tooltip>
                 <n-button quaternary size="small" disabled>
                   <template #icon>
                     <n-icon :component="ThumbUpRound" />
@@ -72,12 +75,18 @@
                   </template>
                   Dislike
                 </n-button>
+                <n-button quaternary size="small" @click.stop="emits('share', item)">
+                  <template #icon>
+                    <n-icon :component="ShareRound" />
+                  </template>
+                  Share
+                </n-button>
               </div>
             </n-card>
           </n-thing>
         </n-list-item>
       </n-list>
-      <n-list bordered v-else>
+      <n-list bordered class="rounded-none" v-else>
         <n-list-item class="my-4">
           <n-empty description="There's no content for you." />
         </n-list-item>
@@ -87,52 +96,29 @@
 </template>
 
 <script lang="ts" setup>
-import { http } from "@/utils/http"
-import { ReplyRound, ShareRound, ThumbUpRound, ThumbDownRound } from "@vicons/material"
-import { useMessage } from "naive-ui"
-import { computed, onMounted, ref } from "vue"
+import { computed, onMounted } from "vue"
+import { ReplyRound, ShareRound, ThumbDownRound, ThumbUpRound } from "@vicons/material"
 import { usePrincipal } from "@/stores/principal"
-import { useI18n } from "vue-i18n"
+import { usePosts } from "@/stores/posts"
+import VueMarkdown from 'vue-markdown-render'
+import AttachmentPlayer from "@/components/player/attachment-player.vue"
 
-const emits = defineEmits(["reply"])
+const emits = defineEmits(["reply", "share"])
 
 defineExpose({ fetch })
 
-const { t } = useI18n()
-
-const $message = useMessage()
+const $posts = usePosts()
 const $principal = usePrincipal()
 
-const reverting = ref(true)
-
-const rawData = ref<any>({ posts: [], related_authors: {} })
-
-const data = computed(() => rawData.value)
-
-async function fetch() {
-  try {
-    reverting.value = true
-    rawData.value = (await http.get("/api/posts")).data
-  } catch (e: any) {
-    $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
-  } finally {
-    reverting.value = false
-  }
-}
+const data = computed(() => $posts.data)
 
 onMounted(() => {
-  fetch()
+  $posts.fetch()
 })
 </script>
 
 <style>
-.post-image img {
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-}
-
 .post-reply-tips .n-alert-body {
-  padding: 0 12px;
+  padding: 12px;
 }
 </style>

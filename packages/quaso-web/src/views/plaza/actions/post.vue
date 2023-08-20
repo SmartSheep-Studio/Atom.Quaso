@@ -94,9 +94,9 @@ import { reactive, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { http } from "@/utils/http"
 
-const emits = defineEmits(["submitted"])
+const emits = defineEmits(["submit"])
 
-defineExpose({ reply })
+defineExpose({ trigger })
 
 const { t } = useI18n()
 
@@ -136,7 +136,7 @@ async function submit() {
     })
 
     reset()
-    emits("submitted")
+    emits("submit")
     $message.success("Successfully published.")
   } catch (e: any) {
     $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
@@ -177,14 +177,19 @@ function attach({ file, data, headers, action, onFinish, onError, onProgress }: 
       $message.success(`Upload file "${file.name}" successfully.`)
       onFinish()
     })
-    .catch((error) => {
-      $message.error(t("common.feedback.unknown-error", [error.response.body ?? error.message]))
+    .catch((e) => {
+      $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
       onError()
     })
 }
 
-function reply(parent: any) {
-  payload.belong_to = parent
+function trigger(overrides: any) {
+  payload.belong_to = overrides.belong_to
+  payload.type = overrides.type ?? payload.type
+  payload.content = overrides.content
+  payload.tags = overrides.tags ?? payload.tags
+  payload.published_at = overrides.published_at
+  payload.attachments = overrides.attachments ?? payload.attachments
 }
 
 function reset() {
