@@ -73,18 +73,38 @@
                 </template>
                 Reply
               </n-tooltip>
-              <n-button quaternary size="small" disabled>
-                <template #icon>
-                  <n-icon :component="ThumbUpRound" />
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    quaternary
+                    size="small"
+                    :type="post?.is_liked ? 'primary' : 'empty'"
+                    @click.stop="like(post)"
+                  >
+                    <template #icon>
+                      <n-icon :component="ThumbUpRound" />
+                    </template>
+                    {{ post?.like_count }}
+                  </n-button>
                 </template>
                 Like
-              </n-button>
-              <n-button quaternary size="small" disabled>
-                <template #icon>
-                  <n-icon :component="ThumbDownRound" />
+              </n-tooltip>
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    quaternary
+                    size="small"
+                    :type="post?.is_disliked ? 'primary' : 'empty'"
+                    @click.stop="dislike(post)"
+                  >
+                    <template #icon>
+                      <n-icon :component="ThumbDownRound" />
+                    </template>
+                    {{ post?.dislike_count }}
+                  </n-button>
                 </template>
                 Dislike
-              </n-button>
+              </n-tooltip>
               <n-button quaternary size="small" @click.stop="sharePost(post)">
                 <template #icon>
                   <n-icon :component="ShareRound" />
@@ -153,18 +173,38 @@
                   </template>
                   Reply
                 </n-tooltip>
-                <n-button quaternary size="small" disabled>
-                  <template #icon>
-                    <n-icon :component="ThumbUpRound" />
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <n-button
+                      quaternary
+                      size="small"
+                      :type="item.is_liked ? 'primary' : 'empty'"
+                      @click.stop="like(item)"
+                    >
+                      <template #icon>
+                        <n-icon :component="ThumbUpRound" />
+                      </template>
+                      {{ item.like_count }}
+                    </n-button>
                   </template>
                   Like
-                </n-button>
-                <n-button quaternary size="small" disabled>
-                  <template #icon>
-                    <n-icon :component="ThumbDownRound" />
+                </n-tooltip>
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <n-button
+                      quaternary
+                      size="small"
+                      :type="item.is_disliked ? 'primary' : 'empty'"
+                      @click.stop="dislike(item)"
+                    >
+                      <template #icon>
+                        <n-icon :component="ThumbDownRound" />
+                      </template>
+                      {{ item.dislike_count }}
+                    </n-button>
                   </template>
                   Dislike
-                </n-button>
+                </n-tooltip>
                 <n-button quaternary size="small" @click.stop="sharePost(item)">
                   <template #icon>
                     <n-icon :component="ShareRound" />
@@ -218,6 +258,32 @@ async function fetch() {
     $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
   } finally {
     reverting.value = false
+  }
+}
+
+async function like(item: any) {
+  try {
+    $posts.isReverting = true
+    const res = await http.post(`/api/posts/${item.id}/like`)
+    await fetch()
+    $message.success(res.status === 200 ? "Successfully liked" : "Successfully cancelled like")
+  } catch (e: any) {
+    $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
+  } finally {
+    $posts.isReverting = false
+  }
+}
+
+async function dislike(item: any) {
+  try {
+    $posts.isReverting = true
+    const res = await http.post(`/api/posts/${item.id}/dislike`)
+    await fetch()
+    $message.success(res.status === 200 ? "Successfully disliked" : "Successfully cancelled dislike")
+  } catch (e: any) {
+    $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
+  } finally {
+    $posts.isReverting = false
   }
 }
 

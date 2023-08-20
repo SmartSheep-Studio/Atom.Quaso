@@ -84,7 +84,6 @@
                       quaternary
                       size="small"
                       :type="item.is_liked ? 'primary' : 'empty'"
-                      :loading="submitting"
                       @click.stop="like(item)"
                     >
                       <template #icon>
@@ -101,7 +100,6 @@
                       quaternary
                       size="small"
                       :type="item.is_disliked ? 'primary' : 'empty'"
-                      :loading="submitting"
                       @click.stop="dislike(item)"
                     >
                       <template #icon>
@@ -139,7 +137,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue"
+import { computed, onMounted } from "vue"
 import { ReplyRound, ShareRound, ThumbDownRound, ThumbUpRound } from "@vicons/material"
 import { useMessage } from "naive-ui"
 import { usePrincipal } from "@/stores/principal"
@@ -160,8 +158,6 @@ const $principal = usePrincipal()
 const $message = useMessage()
 
 const data = computed(() => $posts.data)
-
-const submitting = ref(false)
 
 async function like(item: any) {
   try {
