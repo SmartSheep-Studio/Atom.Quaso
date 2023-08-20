@@ -410,7 +410,7 @@ func (v *PostController) like(c *fiber.Ctx) error {
 		return hyperutils.ErrorParser(err)
 	}
 
-	tx = v.db.Table(viper.GetString("datasource.master.table_prefix") + "user_liked_posts")
+	tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_liked_posts").Where("post_id = ?", post.ID)
 
 	var likeCount int64
 	if err := tx.Where("account_id = ?", u.ID).Count(&likeCount).Error; err != nil {
@@ -455,7 +455,7 @@ func (v *PostController) dislike(c *fiber.Ctx) error {
 		return hyperutils.ErrorParser(err)
 	}
 
-	tx = v.db.Table(viper.GetString("datasource.master.table_prefix") + "user_disliked_posts")
+	tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_disliked_posts").Where("post_id = ?", post.ID)
 
 	var dislikeCount int64
 	if err := tx.Where("account_id = ?", u.ID).Count(&dislikeCount).Error; err != nil {
