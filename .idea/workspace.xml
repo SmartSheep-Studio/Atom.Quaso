@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":sparkles: Channel filter">
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":sparkles: Pagination">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ec36a0db-8829-4e11-b70c-c33545f2fdd9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ec36a0db-8829-4e11-b70c-c33545f2fdd9.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ec36a0db-8829-4e11-b70c-c33545f2fdd9/storage_v2/_src_/database/quaso.2QlvBg/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ec36a0db-8829-4e11-b70c-c33545f2fdd9/storage_v2/_src_/database/quaso.2QlvBg/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/stores/posts.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/stores/posts.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/landing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/landing.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/datasource/models/posts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/datasource/models/posts.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -131,7 +135,8 @@
     <MESSAGE value=":sparkles: Reply" />
     <MESSAGE value=":zap: Optimization" />
     <MESSAGE value=":sparkles: Channel filter" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Channel filter" />
+    <MESSAGE value=":sparkles: Pagination" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Pagination" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

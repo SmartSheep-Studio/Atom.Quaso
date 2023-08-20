@@ -8,7 +8,7 @@ export const usePosts = defineStore("posts", () => {
   const isReverting = ref(true)
 
   const filterOptions = reactive({
-    type: "text",
+    type: 'all',
     page: 1
   })
 
@@ -27,7 +27,7 @@ export const usePosts = defineStore("posts", () => {
 
       const res = await http.get("/api/posts", {
         params: {
-          type: filterOptions.type,
+          type: filterOptions.type === 'all' ? undefined : filterOptions.type,
           skip: (filterOptions.page - 1) * 5
         }
       })

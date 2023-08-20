@@ -5,6 +5,7 @@
         <n-select
           v-model:value="$posts.filterOptions.type"
           :options="[
+            { label: 'All', value: 'all' },
             { label: 'Text', value: 'text' },
             { label: 'Image', value: 'image' },
             { label: 'Audio', value: 'audio' },
@@ -77,18 +78,40 @@
                   </template>
                   Reply
                 </n-tooltip>
-                <n-button quaternary size="small" disabled>
-                  <template #icon>
-                    <n-icon :component="ThumbUpRound" />
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <n-button
+                      quaternary
+                      size="small"
+                      :type="item.is_liked ? 'primary' : 'empty'"
+                      :loading="submitting"
+                      @click.stop="like(item)"
+                    >
+                      <template #icon>
+                        <n-icon :component="ThumbUpRound" />
+                      </template>
+                      {{ item.like_count }}
+                    </n-button>
                   </template>
                   Like
-                </n-button>
-                <n-button quaternary size="small" disabled>
-                  <template #icon>
-                    <n-icon :component="ThumbDownRound" />
+                </n-tooltip>
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <n-button
+                      quaternary
+                      size="small"
+                      :type="item.is_disliked ? 'primary' : 'empty'"
+                      :loading="submitting"
+                      @click.stop="dislike(item)"
+                    >
+                      <template #icon>
+                        <n-icon :component="ThumbDownRound" />
+                      </template>
+                      {{ item.dislike_count }}
+                    </n-button>
                   </template>
                   Dislike
-                </n-button>
+                </n-tooltip>
                 <n-button quaternary size="small" @click.stop="emits('share', item)">
                   <template #icon>
                     <n-icon :component="ShareRound" />
@@ -116,12 +139,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted } from "vue"
+import { computed, onMounted, ref } from "vue"
 import { ReplyRound, ShareRound, ThumbDownRound, ThumbUpRound } from "@vicons/material"
+import { useMessage } from "naive-ui"
 import { usePrincipal } from "@/stores/principal"
 import { usePosts } from "@/stores/posts"
+import { http } from "@/utils/http"
 import VueMarkdown from "vue-markdown-render"
 import AttachmentPlayer from "@/components/player/attachment-player.vue"
+import { useI18n } from "vue-i18n"
+
+const { t } = useI18n()
 
 const emits = defineEmits(["reply", "share"])
 
@@ -129,8 +157,37 @@ defineExpose({ fetch })
 
 const $posts = usePosts()
 const $principal = usePrincipal()
+const $message = useMessage()
 
 const data = computed(() => $posts.data)
+
+const submitting = ref(false)
+
+async function like(item: any) {
+  try {
+    $posts.isReverting = true
+    const res = await http.post(`/api/posts/${item.id}/like`)
+    await $posts.fetch()
+    $message.success(res.status === 200 ? "Successfully liked" : "Successfully cancelled like")
+  } catch (e: any) {
+    $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
+  } finally {
+    $posts.isReverting = false
+  }
+}
+
+async function dislike(item: any) {
+  try {
+    $posts.isReverting = true
+    const res = await http.post(`/api/posts/${item.id}/like`)
+    await $posts.fetch()
+    $message.success(res.status === 200 ? "Successfully disliked" : "Successfully cancelled dislike")
+  } catch (e: any) {
+    $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
+  } finally {
+    $posts.isReverting = false
+  }
+}
 
 onMounted(() => {
   $posts.fetch()

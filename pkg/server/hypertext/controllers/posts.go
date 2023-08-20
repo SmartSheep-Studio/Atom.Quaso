@@ -5,8 +5,10 @@ import (
 	"code.smartsheep.studio/atom/quaso/pkg/server/datasource/models"
 	"code.smartsheep.studio/atom/quaso/pkg/server/hypertext/hyperutils"
 	"code.smartsheep.studio/atom/quaso/pkg/server/hypertext/middleware"
+	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
+	"github.com/spf13/viper"
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
 	"time"
@@ -38,11 +40,34 @@ func (v *PostController) Map(router *fiber.App) {
 		v.gatekeeper.Fn(true, hyperutils.GenScope("create:posts"), hyperutils.GenPerms("posts.create")),
 		v.create,
 	)
+	router.Put(
+		"/api/posts/:post",
+		v.gatekeeper.Fn(true, hyperutils.GenScope("update:posts"), hyperutils.GenPerms("posts.update")),
+		v.update,
+	)
+	router.Delete(
+		"/api/posts/:post",
+		v.gatekeeper.Fn(true, hyperutils.GenScope("delete:posts"), hyperutils.GenPerms("posts.delete")),
+		v.delete,
+	)
+	router.Post(
+		"/api/posts/:post/like",
+		v.gatekeeper.Fn(true, hyperutils.GenScope("like:posts"), hyperutils.GenPerms("posts.like")),
+		v.like,
+	)
+	router.Post(
+		"/api/posts/:post/dislike",
+		v.gatekeeper.Fn(true, hyperutils.GenScope("dislike:posts"), hyperutils.GenPerms("posts.dislike")),
+		v.dislike,
+	)
 }
 
 func (v *PostController) list(c *fiber.Ctx) error {
+	u := c.Locals("quaso-id").(*models.Account)
+
 	tx := v.db.Where("published_at <= ?", time.Now())
 
+	tx.Where("is_hidden = ?", false)
 	tx.Order("created_at desc")
 
 	if c.Query("type", "none") != "none" {
@@ -74,10 +99,48 @@ func (v *PostController) list(c *fiber.Ctx) error {
 			})
 
 			var commentCount int64
-			if err := v.db.Model(&models.Post{}).Where("belong_id = ?", item.ID).Count(&commentCount).Error; err != nil {
+			if err := v.db.Model(&item).Where("belong_id = ?", item.ID).Count(&commentCount).Error; err != nil {
 				data["comment_count"] = 0
 			} else {
 				data["comment_count"] = commentCount
+			}
+
+			var likeCount int64
+			tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_liked_posts").Where("post_id = ?", item.ID)
+			if err := tx.Where("account_id = ?", u.ID).Count(&likeCount).Error; err != nil {
+				if !errors.Is(err, gorm.ErrRecordNotFound) {
+					data["is_liked"] = false
+				}
+			} else {
+				data["is_liked"] = lo.Ternary(likeCount > 0, true, false)
+			}
+
+			var dislikeCount int64
+			tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_disliked_posts").Where("post_id = ?", item.ID)
+			if err := tx.Where("account_id = ?", u.ID).Count(&dislikeCount).Error; err != nil {
+				if !errors.Is(err, gorm.ErrRecordNotFound) {
+					data["is_disliked"] = false
+				}
+			} else {
+				data["is_disliked"] = lo.Ternary(dislikeCount > 0, true, false)
+			}
+
+			tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_liked_posts").Where("post_id = ?", item.ID)
+			if err := tx.Count(&likeCount).Error; err != nil {
+				if !errors.Is(err, gorm.ErrRecordNotFound) {
+					data["like_count"] = 0
+				}
+			} else {
+				data["like_count"] = likeCount
+			}
+
+			tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_disliked_posts").Where("post_id = ?", item.ID)
+			if err := tx.Count(&dislikeCount).Error; err != nil {
+				if !errors.Is(err, gorm.ErrRecordNotFound) {
+					data["dislike_count"] = 0
+				}
+			} else {
+				data["dislike_count"] = dislikeCount
 			}
 
 			return data
@@ -86,9 +149,12 @@ func (v *PostController) list(c *fiber.Ctx) error {
 }
 
 func (v *PostController) get(c *fiber.Ctx) error {
+	u := c.Locals("quaso-id").(*models.Account)
+
 	tx := v.db.Preload("Comments")
 
 	tx.Where("id = ?", c.Params("post"))
+	tx.Where("is_hidden = ?", false)
 	tx.Where("published_at <= ?", time.Now())
 
 	var post models.Post
@@ -120,6 +186,44 @@ func (v *PostController) get(c *fiber.Ctx) error {
 			data["comment_count"] = commentCount
 		}
 
+		var likeCount int64
+		tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_liked_posts").Where("post_id = ?", post.ID)
+		if err := tx.Where("account_id = ?", u.ID).Count(&likeCount).Error; err != nil {
+			if !errors.Is(err, gorm.ErrRecordNotFound) {
+				data["is_liked"] = false
+			}
+		} else {
+			data["is_liked"] = lo.Ternary(likeCount > 0, true, false)
+		}
+
+		var dislikeCount int64
+		tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_disliked_posts").Where("post_id = ?", post.ID)
+		if err := tx.Where("account_id = ?", u.ID).Count(&dislikeCount).Error; err != nil {
+			if !errors.Is(err, gorm.ErrRecordNotFound) {
+				data["is_disliked"] = false
+			}
+		} else {
+			data["is_disliked"] = lo.Ternary(dislikeCount > 0, true, false)
+		}
+
+		tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_liked_posts").Where("post_id = ?", post.ID)
+		if err := tx.Count(&likeCount).Error; err != nil {
+			if !errors.Is(err, gorm.ErrRecordNotFound) {
+				data["like_count"] = 0
+			}
+		} else {
+			data["like_count"] = likeCount
+		}
+
+		tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_disliked_posts").Where("post_id = ?", post.ID)
+		if err := tx.Count(&dislikeCount).Error; err != nil {
+			if !errors.Is(err, gorm.ErrRecordNotFound) {
+				data["dislike_count"] = 0
+			}
+		} else {
+			data["dislike_count"] = dislikeCount
+		}
+
 		data["comments"] = lo.Map(post.Comments, func(item models.Post, index int) map[string]any {
 			data := hyperutils.CovertStructToMap(item)
 
@@ -132,6 +236,44 @@ func (v *PostController) get(c *fiber.Ctx) error {
 				data["comment_count"] = 0
 			} else {
 				data["comment_count"] = commentCount
+			}
+
+			var likeCount int64
+			tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_liked_posts").Where("post_id = ?", item.ID)
+			if err := tx.Where("account_id = ?", u.ID).Count(&likeCount).Error; err != nil {
+				if !errors.Is(err, gorm.ErrRecordNotFound) {
+					data["is_liked"] = false
+				}
+			} else {
+				data["is_liked"] = lo.Ternary(likeCount > 0, true, false)
+			}
+
+			var dislikeCount int64
+			tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_disliked_posts").Where("post_id = ?", item.ID)
+			if err := tx.Where("account_id = ?", u.ID).Count(&dislikeCount).Error; err != nil {
+				if !errors.Is(err, gorm.ErrRecordNotFound) {
+					data["is_disliked"] = false
+				}
+			} else {
+				data["is_disliked"] = lo.Ternary(dislikeCount > 0, true, false)
+			}
+
+			tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_liked_posts").Where("post_id = ?", item.ID)
+			if err := tx.Count(&likeCount).Error; err != nil {
+				if !errors.Is(err, gorm.ErrRecordNotFound) {
+					data["like_count"] = 0
+				}
+			} else {
+				data["like_count"] = likeCount
+			}
+
+			tx = v.db.Table(viper.GetString("datasource.master.table_prefix")+"user_disliked_posts").Where("post_id = ?", item.ID)
+			if err := tx.Count(&dislikeCount).Error; err != nil {
+				if !errors.Is(err, gorm.ErrRecordNotFound) {
+					data["dislike_count"] = 0
+				}
+			} else {
+				data["dislike_count"] = dislikeCount
 			}
 
 			return data
@@ -164,6 +306,8 @@ func (v *PostController) create(c *fiber.Ctx) error {
 		Attachments: datatypes.NewJSONSlice(req.Attachments),
 		PublishedAt: lo.Ternary(req.PublishedAt == nil, time.Now(), lo.FromPtr(req.PublishedAt)),
 		IpAddress:   c.IP(),
+		IsHidden:    false,
+		IsEdited:    false,
 		AccountID:   u.ID,
 	}
 
@@ -180,5 +324,165 @@ func (v *PostController) create(c *fiber.Ctx) error {
 		return hyperutils.ErrorParser(err)
 	} else {
 		return c.JSON(post)
+	}
+}
+
+func (v *PostController) update(c *fiber.Ctx) error {
+	u := c.Locals("quaso-id").(*models.Account)
+
+	var req struct {
+		Type        string     `json:"type" validate:"required"`
+		Content     string     `json:"content" validate:"required"`
+		Tags        []string   `json:"tags"`
+		Attachments []string   `json:"attachments"`
+		PublishedAt *time.Time `json:"published_at"`
+	}
+
+	if err := hyperutils.BodyParser(c, &req); err != nil {
+		return err
+	}
+
+	tx := v.db.Preload("Comments")
+
+	tx.Where("id = ?", c.Params("post"))
+	tx.Where("account_id = ?", u.ID)
+
+	var post models.Post
+	if err := tx.First(&post).Error; err != nil {
+		return hyperutils.ErrorParser(err)
+	}
+
+	post.Tags = datatypes.NewJSONSlice(req.Tags)
+	post.Attachments = datatypes.NewJSONSlice(req.Attachments)
+	post.Content = req.Content
+	post.PublishedAt = lo.Ternary(req.PublishedAt == nil, time.Now(), lo.FromPtr(req.PublishedAt))
+	post.IsEdited = true
+
+	if err := v.db.Save(&post).Error; err != nil {
+		return hyperutils.ErrorParser(err)
+	} else {
+		return c.JSON(post)
+	}
+}
+
+func (v *PostController) delete(c *fiber.Ctx) error {
+	u := c.Locals("quaso-id").(*models.Account)
+
+	var req struct {
+		Type        string     `json:"type" validate:"required"`
+		Content     string     `json:"content" validate:"required"`
+		Tags        []string   `json:"tags"`
+		Attachments []string   `json:"attachments"`
+		PublishedAt *time.Time `json:"published_at"`
+	}
+
+	if err := hyperutils.BodyParser(c, &req); err != nil {
+		return err
+	}
+
+	tx := v.db.Preload("Comments")
+
+	tx.Where("id = ?", c.Params("post"))
+	tx.Where("account_id = ?", u.ID)
+
+	var post models.Post
+	if err := tx.First(&post).Error; err != nil {
+		return hyperutils.ErrorParser(err)
+	}
+
+	if err := v.db.Delete(&post).Error; err != nil {
+		return hyperutils.ErrorParser(err)
+	} else {
+		return c.JSON(post)
+	}
+}
+
+func (v *PostController) like(c *fiber.Ctx) error {
+	u := c.Locals("quaso-id").(*models.Account)
+
+	tx := v.db.Where("id = ?", c.Params("post", "0"))
+
+	tx.Where("is_hidden = ?", false)
+	tx.Where("published_at <= ?", time.Now())
+
+	var post models.Post
+	if err := tx.First(&post).Error; err != nil {
+		return hyperutils.ErrorParser(err)
+	}
+
+	tx = v.db.Table(viper.GetString("datasource.master.table_prefix") + "user_liked_posts")
+
+	var likeCount int64
+	if err := tx.Where("account_id = ?", u.ID).Count(&likeCount).Error; err != nil {
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return hyperutils.ErrorParser(err)
+		}
+	}
+
+	if likeCount > 0 {
+		// Cancel like
+		post.Likes = lo.Filter(post.Likes, func(item models.Account, index int) bool {
+			return item.ID != u.ID
+		})
+
+		if err := v.db.Save(&post).Error; err != nil {
+			return hyperutils.ErrorParser(err)
+		} else {
+			return c.SendStatus(fiber.StatusNoContent)
+		}
+	} else {
+		// Like
+		post.Likes = append(post.Likes, lo.FromPtr(u))
+
+		if err := v.db.Save(&post).Error; err != nil {
+			return hyperutils.ErrorParser(err)
+		} else {
+			return c.SendStatus(fiber.StatusOK)
+		}
+	}
+}
+
+func (v *PostController) dislike(c *fiber.Ctx) error {
+	u := c.Locals("quaso-id").(*models.Account)
+
+	tx := v.db.Where("id = ?", c.Params("post", "0"))
+
+	tx.Where("is_hidden = ?", false)
+	tx.Where("published_at <= ?", time.Now())
+
+	var post models.Post
+	if err := tx.First(&post).Error; err != nil {
+		return hyperutils.ErrorParser(err)
+	}
+
+	tx = v.db.Table(viper.GetString("datasource.master.table_prefix") + "user_disliked_posts")
+
+	var dislikeCount int64
+	if err := tx.Where("account_id = ?", u.ID).Count(&dislikeCount).Error; err != nil {
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return hyperutils.ErrorParser(err)
+		}
+	}
+
+	if dislikeCount > 0 {
+		// Cancel dislike
+		post.Dislikes = lo.Filter(post.Dislikes, func(item models.Account, index int) bool {
+			return item.ID != u.ID
+		})
+
+		if err := v.db.Save(&post).Error; err != nil {
+			return hyperutils.ErrorParser(err)
+		} else {
+			return c.SendStatus(fiber.StatusNoContent)
+		}
+	} else {
+		// Dislike
+		post.Dislikes = append(post.Dislikes, lo.FromPtr(u))
+
+		if err := v.db.Save(&post).Error; err != nil {
+			return hyperutils.ErrorParser(err)
+		} else {
+			return c.SendStatus(fiber.StatusOK)
+		}
 	}
 }
