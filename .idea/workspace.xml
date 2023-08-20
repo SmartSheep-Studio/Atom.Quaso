@@ -4,23 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":sparkles: Reply">
-      <change afterPath="$PROJECT_DIR$/packages/quaso-web/src/components/player/attachment-player.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/quaso-web/src/layouts/plaza-layout.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/quaso-web/src/stores/posts.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/focus.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ec36a0db-8829-4e11-b70c-c33545f2fdd9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ec36a0db-8829-4e11-b70c-c33545f2fdd9.xml" afterDir="false" />
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":zap: Optimization">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/router/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/actions/posts/focus.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/actions/posts/new.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/post.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/actions/posts/surfing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/landing.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/datasource/models/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/datasource/models/accounts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/stores/posts.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/stores/posts.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +128,8 @@
     <MESSAGE value=":lipstick: Optimize grid" />
     <MESSAGE value=":bug: Bug fixes" />
     <MESSAGE value=":sparkles: Reply" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Reply" />
+    <MESSAGE value=":zap: Optimization" />
+    <option name="LAST_COMMIT_MESSAGE" value=":zap: Optimization" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

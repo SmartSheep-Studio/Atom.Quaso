@@ -1,7 +1,21 @@
 <template>
-  <div class="max-w-[100vw]">
+  <div :class="isUnderShadow ? 'max-h-max' : 'max-h-full'">
+    <n-card size="small" class="rounded-none" style="border-bottom: 0">
+      <div class="flex">
+        <n-select
+          v-model:value="$posts.filterOptions.type"
+          :options="[
+            { label: 'Text', value: 'text' },
+            { label: 'Image', value: 'image' },
+            { label: 'Audio', value: 'audio' },
+            { label: 'Video', value: 'video' },
+          ]"
+        />
+      </div>
+    </n-card>
+
     <n-spin :show="$posts.isReverting">
-      <n-list v-if="data.posts.length > 0" bordered hoverable class="rounded-none">
+      <n-list v-if="data.posts.length > 0" bordered hoverable class="rounded-none" style="--n-border-radius: 0">
         <n-list-item
           v-for="item in data.posts"
           @click="$router.push({ name: 'plaza.focus', params: { post: item.id } })"
@@ -100,7 +114,7 @@ import { computed, onMounted } from "vue"
 import { ReplyRound, ShareRound, ThumbDownRound, ThumbUpRound } from "@vicons/material"
 import { usePrincipal } from "@/stores/principal"
 import { usePosts } from "@/stores/posts"
-import VueMarkdown from 'vue-markdown-render'
+import VueMarkdown from "vue-markdown-render"
 import AttachmentPlayer from "@/components/player/attachment-player.vue"
 
 const emits = defineEmits(["reply", "share"])
@@ -115,10 +129,23 @@ const data = computed(() => $posts.data)
 onMounted(() => {
   $posts.fetch()
 })
+
+// Use for dynamic calculate height
+const isUnderShadow = computed(() => {
+  return (window as any).__POWERED_BY_WUJIE__ != null
+})
 </script>
 
 <style>
 .post-reply-tips .n-alert-body {
   padding: 12px;
+}
+
+.max-h-full {
+  height: 100vh;
+}
+
+.max-h-max {
+  height: calc(100vh - 72px);
 }
 </style>
