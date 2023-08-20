@@ -105,6 +105,12 @@
           <n-empty description="There's no content for you." />
         </n-list-item>
       </n-list>
+
+      <n-card size="small" class="rounded-none" style="border-top: 0">
+        <div class="flex justify-center">
+          <n-pagination v-model:page="$posts.filterOptions.page" :page-count="$posts.totalPage" />
+        </div>
+      </n-card>
     </n-spin>
   </div>
 </template>

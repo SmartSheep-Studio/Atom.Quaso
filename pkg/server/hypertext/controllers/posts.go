@@ -41,9 +41,8 @@ func (v *PostController) Map(router *fiber.App) {
 }
 
 func (v *PostController) list(c *fiber.Ctx) error {
-	tx := v.db.Offset(c.QueryInt("skip", 0)).Limit(5)
+	tx := v.db.Where("published_at <= ?", time.Now())
 
-	tx.Where("published_at <= ?", time.Now())
 	tx.Order("created_at desc")
 
 	if c.Query("type", "none") != "none" {
@@ -54,7 +53,7 @@ func (v *PostController) list(c *fiber.Ctx) error {
 	var posts []models.Post
 	if err := tx.Model(&models.Post{}).Count(&postCount).Error; err != nil {
 		return hyperutils.ErrorParser(err)
-	} else if err := tx.Find(&posts).Error; err != nil {
+	} else if err := tx.Offset(c.QueryInt("skip", 0)).Limit(5).Find(&posts).Error; err != nil {
 		return hyperutils.ErrorParser(err)
 	}
 
