@@ -179,7 +179,7 @@ async function like(item: any) {
 async function dislike(item: any) {
   try {
     $posts.isReverting = true
-    const res = await http.post(`/api/posts/${item.id}/like`)
+    const res = await http.post(`/api/posts/${item.id}/dislike`)
     await $posts.fetch()
     $message.success(res.status === 200 ? "Successfully disliked" : "Successfully cancelled dislike")
   } catch (e: any) {

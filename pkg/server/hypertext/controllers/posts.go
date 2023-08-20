@@ -6,6 +6,7 @@ import (
 	"code.smartsheep.studio/atom/quaso/pkg/server/hypertext/hyperutils"
 	"code.smartsheep.studio/atom/quaso/pkg/server/hypertext/middleware"
 	"errors"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
 	"github.com/spf13/viper"
@@ -406,7 +407,7 @@ func (v *PostController) like(c *fiber.Ctx) error {
 	tx.Where("published_at <= ?", time.Now())
 
 	var post models.Post
-	if err := tx.First(&post).Error; err != nil {
+	if err := tx.First(&post).Preload("Likes").Error; err != nil {
 		return hyperutils.ErrorParser(err)
 	}
 
@@ -421,11 +422,8 @@ func (v *PostController) like(c *fiber.Ctx) error {
 
 	if likeCount > 0 {
 		// Cancel like
-		post.Likes = lo.Filter(post.Likes, func(item models.Account, index int) bool {
-			return item.ID != u.ID
-		})
-
-		if err := v.db.Save(&post).Error; err != nil {
+		tbn := viper.GetString("datasource.master.table_prefix") + "user_liked_posts"
+		if err := tx.Exec(fmt.Sprintf("DELETE FROM %s WHERE account_id = ? AND post_id = ?", tbn), u.ID, post.ID).Error; err != nil {
 			return hyperutils.ErrorParser(err)
 		} else {
 			return c.SendStatus(fiber.StatusNoContent)
@@ -451,7 +449,7 @@ func (v *PostController) dislike(c *fiber.Ctx) error {
 	tx.Where("published_at <= ?", time.Now())
 
 	var post models.Post
-	if err := tx.First(&post).Error; err != nil {
+	if err := tx.First(&post).Preload("Dislikes").Error; err != nil {
 		return hyperutils.ErrorParser(err)
 	}
 
@@ -466,11 +464,8 @@ func (v *PostController) dislike(c *fiber.Ctx) error {
 
 	if dislikeCount > 0 {
 		// Cancel dislike
-		post.Dislikes = lo.Filter(post.Dislikes, func(item models.Account, index int) bool {
-			return item.ID != u.ID
-		})
-
-		if err := v.db.Save(&post).Error; err != nil {
+		tbn := viper.GetString("datasource.master.table_prefix") + "user_disliked_posts"
+		if err := tx.Exec(fmt.Sprintf("DELETE FROM %s WHERE account_id = ? AND post_id = ?", tbn), u.ID, post.ID).Error; err != nil {
 			return hyperutils.ErrorParser(err)
 		} else {
 			return c.SendStatus(fiber.StatusNoContent)
