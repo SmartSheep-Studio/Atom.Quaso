@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":building_construction: PWA Support">
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":fix: Fix configuration &amp; rewrite">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.toml" beforeDir="false" afterPath="$PROJECT_DIR$/config.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/config/publisher.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/config/publisher.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/serve.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/serve.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -136,7 +135,8 @@
     <MESSAGE value=":bug: Bug fixes" />
     <MESSAGE value=":sparkles: Post create &amp; delete" />
     <MESSAGE value=":building_construction: PWA Support" />
-    <option name="LAST_COMMIT_MESSAGE" value=":building_construction: PWA Support" />
+    <MESSAGE value=":fix: Fix configuration &amp; rewrite" />
+    <option name="LAST_COMMIT_MESSAGE" value=":fix: Fix configuration &amp; rewrite" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
