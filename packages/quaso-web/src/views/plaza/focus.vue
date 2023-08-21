@@ -36,9 +36,17 @@
               </n-tag>
             </n-space>
           </template>
+
+          <template #extra>
+            <n-dropdown :options="dropdownOptions" placement="bottom-start" @select="dropdownHandler">
+              <n-button :bordered="false" style="padding: 0 4px">
+                ···
+              </n-button>
+            </n-dropdown>
+          </template>
         </n-page-header>
 
-        <n-divider style="margin: 18px -24px" />
+        <n-divider class="inset-divider" />
 
         <n-thing>
           <div>
@@ -226,10 +234,10 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from "vue"
+import { computed, onMounted, ref, watch } from "vue"
 import { http } from "@/utils/http"
-import { useRoute } from "vue-router"
-import { useMessage } from "naive-ui"
+import { useRoute, useRouter } from "vue-router"
+import { useDialog, useMessage } from "naive-ui"
 import { useI18n } from "vue-i18n"
 import { usePosts } from "@/stores/posts"
 import { usePrincipal } from "@/stores/principal"
@@ -243,12 +251,53 @@ const emits = defineEmits(["post"])
 
 const $posts = usePosts()
 const $route = useRoute()
+const $router = useRouter()
+const $dialog = useDialog()
 const $message = useMessage()
 const $principal = usePrincipal()
 
 const reverting = ref(false)
 
 const post = ref<any>({})
+
+const dropdownOptions = computed(() => {
+  const items: any[] = [
+    { label: "Report", key: "report", disabled: true }
+  ]
+
+  if (post.value?.account?.user_id === $principal.account.id) {
+    items.push(
+      { label: "Edit", key: "edit" },
+      { label: "Delete", key: "delete", props: { style: { color: "#de576d" } } }
+    )
+  }
+
+  return items
+})
+
+function dropdownHandler(key: string) {
+  switch (key) {
+    case "edit":
+      emits("post", {
+        ...post.value,
+        edit_to: post.value
+      })
+      break
+    case "delete":
+      $dialog.warning({
+        title: "Are you confirm?",
+        content: "Are you sure you want to delete this post? This operation cannot be undo and will processed immediately.",
+        positiveText: "Confirm",
+        negativeText: "Cancel",
+        onPositiveClick: async () => {
+          await http.delete(`/api/posts/${$route.params.post}`)
+          $message.success("Successfully deleted this post.")
+          await $router.push({ name: "plaza" })
+        }
+      })
+      break
+  }
+}
 
 async function fetch() {
   try {
@@ -317,5 +366,10 @@ watch($posts, (value) => {
 
 .post-reply-tips .n-alert__close {
   margin: 6.5px 12px 0 0;
+}
+
+.inset-divider {
+  margin: 18px -24px !important;
+  width: calc(100% + 48px);
 }
 </style>

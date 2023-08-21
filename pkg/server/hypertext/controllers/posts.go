@@ -369,18 +369,6 @@ func (v *PostController) update(c *fiber.Ctx) error {
 func (v *PostController) delete(c *fiber.Ctx) error {
 	u := c.Locals("quaso-id").(*models.Account)
 
-	var req struct {
-		Type        string     `json:"type" validate:"required"`
-		Content     string     `json:"content" validate:"required"`
-		Tags        []string   `json:"tags"`
-		Attachments []string   `json:"attachments"`
-		PublishedAt *time.Time `json:"published_at"`
-	}
-
-	if err := hyperutils.BodyParser(c, &req); err != nil {
-		return err
-	}
-
 	tx := v.db.Preload("Comments")
 
 	tx.Where("id = ?", c.Params("post"))

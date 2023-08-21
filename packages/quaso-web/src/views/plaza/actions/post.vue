@@ -1,6 +1,6 @@
 <template>
   <div class="w-[720px]">
-    <n-card title="New Post" size="large">
+    <n-card :title="payload.edit_to != null ? 'Edit Post' : 'New Post'" size="large">
       <n-form @submit.prevent="submit">
         <div>
           <n-input
@@ -10,11 +10,25 @@
           />
         </div>
 
-        <div class="mt-2" v-if="payload.belong_to != null">
-          <n-alert class="post-reply-tips" :show-icon="false" closable @close="payload.belong_to = null">
-            You're replying post #{{ payload.belong_to?.id }}
-          </n-alert>
-        </div>
+        <n-alert
+          v-if="payload.edit_to != null"
+          class="post-reply-tips mt-2"
+          :show-icon="false"
+          closable
+          @close="reset()"
+        >
+          You're editing post #{{ payload.edit_to?.id }}
+        </n-alert>
+
+        <n-alert
+          v-if="payload.belong_to != null"
+          class="post-reply-tips mt-2"
+          :show-icon="false"
+          closable
+          @close="payload.belong_to = null"
+        >
+          You're replying post #{{ payload.belong_to?.id }}
+        </n-alert>
 
         <div class="mt-2 flex gap-2">
           <n-select :options="options" v-model:value="payload.type" class="w-[160px]" />
@@ -119,6 +133,7 @@ const payload = reactive<any>({
   tags: [],
   attachments: [],
   belong_to: null,
+  edit_to: null,
   published_at: null
 })
 
@@ -126,14 +141,20 @@ async function submit() {
   try {
     submitting.value = true
 
-    await http.post("/api/posts", {
+    const pd = {
       type: payload.type,
       content: payload.content,
       tags: payload.tags,
       attachments: payload.attachments,
       belong_to: payload.belong_to?.id ?? undefined,
       published_at: new Date(payload.published_at)
-    })
+    }
+
+    if (payload.edit_to == null) {
+      await http.post("/api/posts", pd)
+    } else {
+      await http.put(`/api/posts/${payload.edit_to.id}`, pd)
+    }
 
     reset()
     emits("submit")
@@ -188,6 +209,7 @@ function trigger(overrides: any) {
   payload.type = overrides.type ?? payload.type
   payload.content = overrides.content
   payload.tags = overrides.tags ?? payload.tags
+  payload.edit_to = overrides.edit_to ?? null
   payload.published_at = overrides.published_at
   payload.attachments = overrides.attachments ?? payload.attachments
 }
@@ -198,6 +220,7 @@ function reset() {
   payload.tags = []
   payload.attachments = []
   payload.belong_to = null
+  payload.edit_to = null
   payload.published_at = null
 }
 </script>
