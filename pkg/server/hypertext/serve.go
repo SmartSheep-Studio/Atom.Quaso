@@ -105,7 +105,7 @@ func MapControllers(controllers []controllers.HypertextController, server *fiber
 	})
 
 	// Serve static files
-	server.Use("/srv/subapps/quaso", cache.New(cache.Config{
+	server.Use("/", cache.New(cache.Config{
 		Expiration:   24 * time.Hour,
 		CacheControl: true,
 	}), filesystem.New(filesystem.Config{
