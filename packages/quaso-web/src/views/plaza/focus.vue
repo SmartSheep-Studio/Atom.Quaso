@@ -163,9 +163,7 @@
             </div>
 
             <n-space vertical class="mt-4">
-              <n-card content-style="padding: 0" class="max-w-[800px]" v-for="img in item.attachments">
-                <attachment-player :src="img" />
-              </n-card>
+              <attachment-player v-for="img in item.attachments" :src="img" />
             </n-space>
 
             <n-card size="small" class="mb-1 mt-2" content-style="padding: 8px" embedded>

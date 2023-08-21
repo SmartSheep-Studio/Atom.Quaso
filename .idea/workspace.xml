@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":bug: Fix comment author display issue">
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":bug: Bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/post.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/post.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.toml" beforeDir="false" afterPath="$PROJECT_DIR$/config.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/components/player/attachment-player.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/components/player/attachment-player.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/focus.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/focus.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,14 +133,14 @@
     <MESSAGE value=":sparkles: Channel filter" />
     <MESSAGE value=":sparkles: Pagination" />
     <MESSAGE value=":sparkles: Like &amp; Dislike" />
-    <MESSAGE value=":bug: Bug fixes" />
     <MESSAGE value=":sparkles: Post create &amp; delete" />
     <MESSAGE value=":building_construction: PWA Support" />
     <MESSAGE value=":fix: Fix configuration &amp; rewrite" />
     <MESSAGE value=":bug: Fix loading web ui" />
     <MESSAGE value=":bug: Remove PWA to fix loading web ui" />
     <MESSAGE value=":bug: Fix comment author display issue" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix comment author display issue" />
+    <MESSAGE value=":bug: Bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

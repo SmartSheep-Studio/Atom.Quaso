@@ -51,9 +51,7 @@
             </div>
 
             <n-space vertical class="mt-4">
-              <n-card content-style="padding: 0" class="max-w-[800px]" v-for="img in item.attachments">
-                <attachment-player :src="img" @click.prevent />
-              </n-card>
+              <attachment-player v-for="img in item.attachments" :src="img" @click.prevent />
             </n-space>
 
             <div class="mt-2" v-if="item.belong_id != null">
