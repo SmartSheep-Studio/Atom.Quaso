@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":sparkles: Post create &amp; delete">
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":building_construction: PWA Support">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.toml" beforeDir="false" afterPath="$PROJECT_DIR$/config.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/config/publisher.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/config/publisher.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/serve.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/serve.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +77,7 @@
       <recent name="C:\Users\LittleSheep\Projects\Code\Atom\Quaso\packages\quaso-web\src" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.Quaso Web">
+  <component name="RunManager" selected="Go 构建.Quaso">
     <configuration name="Quaso" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="Quaso" />
       <working_directory value="$PROJECT_DIR$" />
@@ -134,7 +135,8 @@
     <MESSAGE value=":sparkles: Like &amp; Dislike" />
     <MESSAGE value=":bug: Bug fixes" />
     <MESSAGE value=":sparkles: Post create &amp; delete" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Post create &amp; delete" />
+    <MESSAGE value=":building_construction: PWA Support" />
+    <option name="LAST_COMMIT_MESSAGE" value=":building_construction: PWA Support" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

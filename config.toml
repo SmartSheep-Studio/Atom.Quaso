@@ -1,6 +1,6 @@
 debug = true
 instance_id = "86ad4f61-8bff-4bf8-9a93-8da7813a722c"
-base_url = "http://localhost:9446"
+base_url = "http://localhost:9447"
 endpoints = "http://localhost:9443"
 mount_key = "WGqNUFNhED"
 

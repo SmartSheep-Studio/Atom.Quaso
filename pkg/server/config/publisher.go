@@ -14,7 +14,7 @@ func NewEndpointConnection() *subapps.HeLiCoPtErConnection {
 		viper.GetString("base_url"),
 		"quaso",
 		models.SubAppExposedPage{
-			Icon:  "mdi-store",
+			Icon:  "mdi-food-croissant",
 			Name:  "quaso",
 			Title: "Quaso",
 			Path:  "/",
