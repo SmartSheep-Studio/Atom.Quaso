@@ -133,11 +133,11 @@
           v-for="item in post?.comments"
           @click="$router.push({ name: 'plaza.focus', params: { post: item.id } })"
         >
-          <n-thing :title="post?.account.nickname">
+          <n-thing :title="item.account.nickname">
             <template #description>
               <n-space size="small">
                 <n-tag
-                  v-if="post?.account.user_id === $principal.account.id"
+                  v-if="item.account.user_id === $principal.account.id"
                   size="small"
                   type="warning"
                   :bordered="false"
