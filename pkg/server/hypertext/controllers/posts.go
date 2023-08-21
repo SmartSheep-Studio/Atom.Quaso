@@ -353,6 +353,7 @@ func (v *PostController) update(c *fiber.Ctx) error {
 		return hyperutils.ErrorParser(err)
 	}
 
+	post.Type = req.Type
 	post.Tags = datatypes.NewJSONSlice(req.Tags)
 	post.Attachments = datatypes.NewJSONSlice(req.Attachments)
 	post.Content = req.Content

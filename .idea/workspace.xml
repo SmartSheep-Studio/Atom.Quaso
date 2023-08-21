@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":bug: Fix loading web ui">
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":bug: Fix comment author display issue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/post.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/post.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +76,7 @@
       <recent name="C:\Users\LittleSheep\Projects\Code\Atom\Quaso\packages\quaso-web\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Go 构建.Quaso">
+  <component name="RunManager" selected="npm.Quaso Web">
     <configuration name="Quaso" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="Quaso" />
       <working_directory value="$PROJECT_DIR$" />
@@ -135,7 +137,9 @@
     <MESSAGE value=":building_construction: PWA Support" />
     <MESSAGE value=":fix: Fix configuration &amp; rewrite" />
     <MESSAGE value=":bug: Fix loading web ui" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix loading web ui" />
+    <MESSAGE value=":bug: Remove PWA to fix loading web ui" />
+    <MESSAGE value=":bug: Fix comment author display issue" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix comment author display issue" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

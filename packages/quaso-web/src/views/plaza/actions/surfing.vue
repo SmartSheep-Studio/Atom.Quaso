@@ -52,7 +52,7 @@
 
             <n-space vertical class="mt-4">
               <n-card content-style="padding: 0" class="max-w-[800px]" v-for="img in item.attachments">
-                <attachment-player :src="img" />
+                <attachment-player :src="img" @click.prevent />
               </n-card>
             </n-space>
 
