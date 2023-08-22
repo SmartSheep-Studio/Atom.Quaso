@@ -90,14 +90,23 @@ func (v *PostController) list(c *fiber.Ctx) error {
 		return hyperutils.ErrorParser(err)
 	}
 
+	accountsResp := map[uint]subapps.HeLiCoPtErAccountResp{}
+	lo.ForEach(authors, func(item models.Account, index int) {
+		resp, _ := v.conn.GetAccountWithID(item.UserID)
+		accountsResp[item.ID] = resp
+	})
+
 	return c.JSON(fiber.Map{
 		"total": postCount,
 		"posts": lo.Map(posts, func(item models.Post, index int) map[string]any {
 			data := hyperutils.CovertStructToMap(item)
 
-			data["account"], _ = lo.Find(authors, func(v models.Account) bool {
+			account, _ := lo.Find(authors, func(v models.Account) bool {
 				return v.ID == item.AccountID
 			})
+
+			data["account"] = account
+			data["author"] = accountsResp[account.ID].User
 
 			var commentCount int64
 			if err := v.db.Model(&item).Where("belong_id = ?", item.ID).Count(&commentCount).Error; err != nil {
@@ -170,6 +179,12 @@ func (v *PostController) get(c *fiber.Ctx) error {
 		return hyperutils.ErrorParser(err)
 	}
 
+	accountsResp := map[uint]subapps.HeLiCoPtErAccountResp{}
+	lo.ForEach(commentAuthors, func(item models.Account, index int) {
+		resp, _ := v.conn.GetAccountWithID(item.UserID)
+		accountsResp[item.ID] = resp
+	})
+
 	return c.JSON(func() map[string]any {
 		data := hyperutils.CovertStructToMap(post)
 
@@ -177,7 +192,10 @@ func (v *PostController) get(c *fiber.Ctx) error {
 		if err := v.db.Where("id = ?", post.AccountID).First(&author).Error; err != nil {
 			data["account"] = nil
 		} else {
+			resp, _ := v.conn.GetAccountWithID(author.UserID)
+
 			data["account"] = author
+			data["author"] = resp.User
 		}
 
 		var commentCount int64
@@ -228,9 +246,12 @@ func (v *PostController) get(c *fiber.Ctx) error {
 		data["comments"] = lo.Map(post.Comments, func(item models.Post, index int) map[string]any {
 			data := hyperutils.CovertStructToMap(item)
 
-			data["account"], _ = lo.Find(commentAuthors, func(v models.Account) bool {
+			account, _ := lo.Find(commentAuthors, func(v models.Account) bool {
 				return v.ID == item.AccountID
 			})
+
+			data["account"] = account
+			data["author"] = accountsResp[account.ID].User
 
 			var commentCount int64
 			if err := v.db.Model(&models.Post{}).Where("belong_id = ?", item.ID).Count(&commentCount).Error; err != nil {

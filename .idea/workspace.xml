@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":bug: Bug fixes">
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":sparkles: Audio &amp; Video support">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.toml" beforeDir="false" afterPath="$PROJECT_DIR$/config.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/components/player/attachment-player.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/components/player/attachment-player.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/focus.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/focus.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +79,7 @@
       <recent name="C:\Users\LittleSheep\Projects\Code\Atom\Quaso\packages\quaso-web\src" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.Quaso Web">
+  <component name="RunManager" selected="Go 构建.Quaso">
     <configuration name="Quaso" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="Quaso" />
       <working_directory value="$PROJECT_DIR$" />
@@ -140,7 +142,8 @@
     <MESSAGE value=":bug: Remove PWA to fix loading web ui" />
     <MESSAGE value=":bug: Fix comment author display issue" />
     <MESSAGE value=":bug: Bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes" />
+    <MESSAGE value=":sparkles: Audio &amp; Video support" />
+    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Audio &amp; Video support" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

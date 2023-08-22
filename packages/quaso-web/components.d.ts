@@ -10,6 +10,7 @@ declare module 'vue' {
     AttachmentPlayer: typeof import('./src/components/player/attachment-player.vue')['default']
     Gatekeeper: typeof import('./src/components/global/gatekeeper.vue')['default']
     NAlert: typeof import('naive-ui')['NAlert']
+    NAvatar: typeof import('naive-ui')['NAvatar']
     NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']
     NBreadcrumbItem: typeof import('naive-ui')['NBreadcrumbItem']
     NButton: typeof import('naive-ui')['NButton']

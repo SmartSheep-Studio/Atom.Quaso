@@ -6,6 +6,10 @@
           :title="post?.account?.nickname"
           @back="$router.back()"
         >
+          <template #avatar>
+            <n-avatar :src="`/srv/subapps/quaso${post?.author?.avatar_url}`" />
+          </template>
+
           <template #header>
             <n-breadcrumb>
               <n-breadcrumb-item @click="$router.push({ name: 'plaza' })">Plaza</n-breadcrumb-item>
@@ -16,7 +20,7 @@
           <template #subtitle>
             <n-space size="small">
               <n-tag
-                v-if="post?.account?.user_id === $principal.account.id"
+                v-if="post?.author?.id === $principal.account.id"
                 size="small"
                 type="warning"
                 :bordered="false"
@@ -133,30 +137,39 @@
           v-for="item in post?.comments"
           @click="$router.push({ name: 'plaza.focus', params: { post: item.id } })"
         >
-          <n-thing :title="item.account.nickname">
-            <template #description>
-              <n-space size="small">
-                <n-tag
-                  v-if="item.account.user_id === $principal.account.id"
-                  size="small"
-                  type="warning"
-                  :bordered="false"
-                >
-                  You
-                </n-tag>
-                <n-tag class="capitalize" size="small" type="primary" :bordered="false">
-                  {{ item.type }}
-                </n-tag>
-                <n-tag
-                  v-for="tag in item.tags"
-                  size="small"
-                  type="info"
-                  :bordered="false"
-                >
-                  {{ tag }}
-                </n-tag>
-              </n-space>
+          <n-thing>
+            <template #avatar>
+              <n-avatar :src="`/srv/subapps/quaso${item.author.avatar_url}`" />
             </template>
+
+            <template #header>
+              <div>
+                <div>{{ item.author.nickname }}</div>
+                <div class="text-xs text-gray-600 mb-1">{{ item.author.description }}</div>
+              </div>
+            </template>
+
+            <n-space size="small" class="mt-[-12px]">
+              <n-tag
+                v-if="item.author.id === $principal.account.id"
+                type="warning"
+                size="small"
+                :bordered="false"
+              >
+                You
+              </n-tag>
+              <n-tag class="capitalize" size="small" type="primary" :bordered="false">
+                {{ item.type }}
+              </n-tag>
+              <n-tag
+                v-for="tag in item.tags"
+                size="small"
+                type="info"
+                :bordered="false"
+              >
+                {{ tag }}
+              </n-tag>
+            </n-space>
 
             <div>
               <vue-markdown :source="item.content" />
