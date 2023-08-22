@@ -1,7 +1,7 @@
 <template>
   <n-thing>
     <template #avatar>
-      <n-avatar :src="`/srv/subapps/quaso${props.post.author.avatar_url}`" />
+      <n-avatar color="transparent" :src="`/srv/subapps/quaso${props.post.author.avatar_url}`" />
     </template>
 
     <template #header>
