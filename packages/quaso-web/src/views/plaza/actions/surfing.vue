@@ -60,7 +60,7 @@
             </div>
 
             <n-space vertical class="mt-4">
-              <attachment-player v-for="img in item.attachments" :src="img" @click.prevent />
+              <attachment-player v-for="img in item.attachments" :src="img" :key="img" @click.prevent />
             </n-space>
 
             <div class="mt-2" v-if="item.belong_id != null">

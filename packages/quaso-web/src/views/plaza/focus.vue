@@ -59,7 +59,7 @@
 
           <n-space vertical class="mt-4">
             <n-card content-style="padding: 0" class="max-w-[800px]" v-for="img in post?.attachments">
-              <attachment-player :src="img" />
+              <attachment-player :src="img" :key="img" />
             </n-card>
           </n-space>
 
@@ -176,7 +176,7 @@
             </div>
 
             <n-space vertical class="mt-4">
-              <attachment-player v-for="img in item.attachments" :src="img" />
+              <attachment-player v-for="img in item.attachments" :src="img" :key="img" />
             </n-space>
 
             <n-card size="small" class="mb-1 mt-2" content-style="padding: 8px" embedded>
