@@ -1,4 +1,4 @@
-package middleware
+package middlewares
 
 import (
 	"code.smartsheep.studio/atom/quaso/pkg/server/datasource/models"
@@ -54,8 +54,7 @@ func NewAuth(db *gorm.DB, c *subapps.HeLiCoPtErConnection) *AuthMiddleware {
 					if err := inst.db.Where("user_id = ?", c.Locals("principal").(tmodels.User).ID).First(&account).Error; err != nil {
 						if errors.Is(gorm.ErrRecordNotFound, err) {
 							account = &models.Account{
-								Nickname: c.Locals("principal").(tmodels.User).Nickname,
-								UserID:   c.Locals("principal").(tmodels.User).ID,
+								UserID: c.Locals("principal").(tmodels.User).ID,
 							}
 
 							if err := db.Save(&account).Error; err != nil {

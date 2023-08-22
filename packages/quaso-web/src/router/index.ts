@@ -26,6 +26,11 @@ const router = createRouter({
               path: "/plaza/:post",
               name: "plaza.focus",
               component: () => import("@/views/plaza/focus.vue")
+            },
+            {
+              path: "/accounts/:account",
+              name: "plaza.account.info",
+              component: () => import("@/views/account/info.vue")
             }
           ]
         }

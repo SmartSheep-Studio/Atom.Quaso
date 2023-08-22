@@ -38,7 +38,7 @@
     </div>
 
     <n-space vertical class="mt-4">
-      <attachment-player v-for="img in props.post.attachments" :src="img" :key="img" />
+      <attachment-player v-for="img in props.post.attachments" :src="img" :key="img" @click.stop />
     </n-space>
 
     <post-widget
@@ -48,6 +48,7 @@
       @like="like"
       @dislike="dislike"
       @share="emits('share')"
+      @click.stop
     />
   </n-thing>
 </template>

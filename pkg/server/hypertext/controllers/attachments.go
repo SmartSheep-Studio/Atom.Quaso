@@ -3,16 +3,16 @@ package controllers
 import (
 	"code.smartsheep.studio/atom/bedrock/pkg/kit/subapps"
 	"code.smartsheep.studio/atom/quaso/pkg/server/hypertext/hyperutils"
-	"code.smartsheep.studio/atom/quaso/pkg/server/hypertext/middleware"
+	"code.smartsheep.studio/atom/quaso/pkg/server/hypertext/middlewares"
 	"github.com/gofiber/fiber/v2"
 )
 
 type AttachmentController struct {
 	conn       *subapps.HeLiCoPtErConnection
-	gatekeeper *middleware.AuthMiddleware
+	gatekeeper *middlewares.AuthMiddleware
 }
 
-func NewAttachmentController(conn *subapps.HeLiCoPtErConnection, gatekeeper *middleware.AuthMiddleware) *AttachmentController {
+func NewAttachmentController(conn *subapps.HeLiCoPtErConnection, gatekeeper *middlewares.AuthMiddleware) *AttachmentController {
 	return &AttachmentController{conn, gatekeeper}
 }
 

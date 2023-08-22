@@ -17,6 +17,7 @@ func Module() fx.Option {
 	return fx.Module("hypertext.controllers",
 		fx.Provide(
 			AsController(NewStatusController),
+			AsController(NewAccountController),
 			AsController(NewAttachmentController),
 			AsController(NewPostController),
 		),
