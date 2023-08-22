@@ -4,26 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":lipstick: Update avatar color">
-      <change afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/account/info.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/server/datasource/models/likes.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/server/datasource/models/subscriptions.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/server/hypertext/controllers/account.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ec36a0db-8829-4e11-b70c-c33545f2fdd9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ec36a0db-8829-4e11-b70c-c33545f2fdd9.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ec36a0db-8829-4e11-b70c-c33545f2fdd9/storage_v2/_src_/database/quaso.2QlvBg/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ec36a0db-8829-4e11-b70c-c33545f2fdd9/storage_v2/_src_/database/quaso.2QlvBg/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/components/player/post-player.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/components/player/post-player.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/router/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/datasource/models/accounts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/datasource/models/accounts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/datasource/models/migrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/datasource/models/migrator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/datasource/models/posts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/datasource/models/posts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/controllers/attachments.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/controllers/attachments.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/controllers/module.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/controllers/module.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/middleware/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/middlewares/auth.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/middleware/module.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/middlewares/module.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/module.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/module.go" afterDir="false" />
-    </list>
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":boom: Change like &amp; subscription database arch" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -158,7 +139,8 @@
     <MESSAGE value=":bug: Fix attachment player wrong position" />
     <MESSAGE value=":building_construction: Extract post display to component" />
     <MESSAGE value=":lipstick: Update avatar color" />
-    <option name="LAST_COMMIT_MESSAGE" value=":lipstick: Update avatar color" />
+    <MESSAGE value=":boom: Change like &amp; subscription database arch" />
+    <option name="LAST_COMMIT_MESSAGE" value=":boom: Change like &amp; subscription database arch" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

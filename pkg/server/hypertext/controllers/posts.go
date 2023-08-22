@@ -311,7 +311,7 @@ func (v *PostController) create(c *fiber.Ctx) error {
 	var req struct {
 		Type        string     `json:"type" validate:"required"`
 		Content     string     `json:"content" validate:"required"`
-		Scope       *string    `json:"content"`
+		Scope       *string    `json:"scope"`
 		Tags        []string   `json:"tags"`
 		Attachments []string   `json:"attachments"`
 		BelongTo    *uint      `json:"belong_to"`
