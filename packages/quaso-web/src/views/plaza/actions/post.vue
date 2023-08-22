@@ -147,7 +147,7 @@ async function submit() {
       tags: payload.tags,
       attachments: payload.attachments,
       belong_to: payload.belong_to?.id ?? undefined,
-      published_at: new Date(payload.published_at)
+      published_at: payload.published_at != null ? new Date(payload.published_at) : null
     }
 
     if (payload.edit_to == null) {

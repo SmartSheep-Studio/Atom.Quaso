@@ -69,7 +69,7 @@ func (v *PostController) list(c *fiber.Ctx) error {
 	tx := v.db.Where("published_at <= ?", time.Now())
 
 	tx.Where("is_hidden = ?", false)
-	tx.Order("created_at desc")
+	tx.Order("published_at desc")
 
 	if c.Query("type", "none") != "none" {
 		tx.Where("type = ?", c.Query("type"))
@@ -161,7 +161,9 @@ func (v *PostController) list(c *fiber.Ctx) error {
 func (v *PostController) get(c *fiber.Ctx) error {
 	u := c.Locals("quaso-id").(*models.Account)
 
-	tx := v.db.Preload("Comments")
+	tx := v.db.Preload("Comments", func(db *gorm.DB) *gorm.DB {
+		return db.Order("published_at desc")
+	})
 
 	tx.Where("id = ?", c.Params("post"))
 	tx.Where("is_hidden = ?", false)

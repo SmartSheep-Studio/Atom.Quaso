@@ -21,111 +21,11 @@
           v-for="item in data.posts"
           @click="$router.push({ name: 'plaza.focus', params: { post: item.id } })"
         >
-          <n-thing>
-            <template #avatar>
-              <n-avatar :src="`/srv/subapps/quaso${item.author.avatar_url}`" />
-            </template>
-
-            <template #header>
-              <div>
-                <div>{{ item.author.nickname }}</div>
-                <div class="text-xs text-gray-600 mb-1">{{ item.author.description }}</div>
-              </div>
-            </template>
-
-            <n-space size="small" class="mt-[-12px]">
-              <n-tag
-                v-if="item.author.id === $principal.account.id"
-                type="warning"
-                size="small"
-                :bordered="false"
-              >
-                You
-              </n-tag>
-              <n-tag class="capitalize" size="small" type="primary" :bordered="false">
-                {{ item.type }}
-              </n-tag>
-              <n-tag
-                v-for="tag in item.tags"
-                size="small"
-                type="info"
-                :bordered="false"
-              >
-                {{ tag }}
-              </n-tag>
-            </n-space>
-
-            <div>
-              <vue-markdown :source="item.content" />
-            </div>
-
-            <n-space vertical class="mt-4">
-              <attachment-player v-for="img in item.attachments" :src="img" :key="img" @click.prevent />
-            </n-space>
-
-            <div class="mt-2" v-if="item.belong_id != null">
-              <n-alert class="post-reply-tips" :show-icon="false">
-                This post is replying
-                <router-link :to="{ name: 'plaza.focus', params: { post: item.belong_id } }" @click.stop>
-                  #{{ item.belong_id }}
-                </router-link>
-              </n-alert>
-            </div>
-
-            <n-card size="small" class="mb-1 mt-2" content-style="padding: 8px" embedded>
-              <div class="flex justify-around">
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <n-button quaternary size="small" @click.stop="emits('reply', item)">
-                      <template #icon>
-                        <n-icon :component="ReplyRound" />
-                      </template>
-                      {{ item.comment_count }}
-                    </n-button>
-                  </template>
-                  Reply
-                </n-tooltip>
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <n-button
-                      quaternary
-                      size="small"
-                      :type="item.is_liked ? 'primary' : 'empty'"
-                      @click.stop="like(item)"
-                    >
-                      <template #icon>
-                        <n-icon :component="ThumbUpRound" />
-                      </template>
-                      {{ item.like_count }}
-                    </n-button>
-                  </template>
-                  Like
-                </n-tooltip>
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <n-button
-                      quaternary
-                      size="small"
-                      :type="item.is_disliked ? 'primary' : 'empty'"
-                      @click.stop="dislike(item)"
-                    >
-                      <template #icon>
-                        <n-icon :component="ThumbDownRound" />
-                      </template>
-                      {{ item.dislike_count }}
-                    </n-button>
-                  </template>
-                  Dislike
-                </n-tooltip>
-                <n-button quaternary size="small" @click.stop="emits('share', item)">
-                  <template #icon>
-                    <n-icon :component="ShareRound" />
-                  </template>
-                  Share
-                </n-button>
-              </div>
-            </n-card>
-          </n-thing>
+          <post-player
+            :post="item"
+            @reply="emits('reply', item)"
+            @share="emits('share', item)"
+          />
         </n-list-item>
       </n-list>
       <n-list bordered class="rounded-none" v-else>
@@ -145,52 +45,16 @@
 
 <script lang="ts" setup>
 import { computed, onMounted } from "vue"
-import { ReplyRound, ShareRound, ThumbDownRound, ThumbUpRound } from "@vicons/material"
-import { useMessage } from "naive-ui"
-import { usePrincipal } from "@/stores/principal"
 import { usePosts } from "@/stores/posts"
-import { http } from "@/utils/http"
-import VueMarkdown from "vue-markdown-render"
-import AttachmentPlayer from "@/components/player/attachment-player.vue"
-import { useI18n } from "vue-i18n"
-
-const { t } = useI18n()
+import PostPlayer from "@/components/player/post-player.vue"
 
 const emits = defineEmits(["reply", "share"])
 
 defineExpose({ fetch })
 
 const $posts = usePosts()
-const $principal = usePrincipal()
-const $message = useMessage()
 
 const data = computed(() => $posts.data)
-
-async function like(item: any) {
-  try {
-    $posts.isReverting = true
-    const res = await http.post(`/api/posts/${item.id}/like`)
-    await $posts.fetch()
-    $message.success(res.status === 200 ? "Successfully liked" : "Successfully cancelled like")
-  } catch (e: any) {
-    $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
-  } finally {
-    $posts.isReverting = false
-  }
-}
-
-async function dislike(item: any) {
-  try {
-    $posts.isReverting = true
-    const res = await http.post(`/api/posts/${item.id}/dislike`)
-    await $posts.fetch()
-    $message.success(res.status === 200 ? "Successfully disliked" : "Successfully cancelled dislike")
-  } catch (e: any) {
-    $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
-  } finally {
-    $posts.isReverting = false
-  }
-}
 
 onMounted(() => {
   $posts.fetch()

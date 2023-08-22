@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":sparkles: Can view post author avatar and description" />
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":bug: Fix attachment player wrong position">
+      <change afterPath="$PROJECT_DIR$/packages/quaso-web/src/components/player/post-player.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/quaso-web/src/components/player/post-widget.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/post.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/post.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/focus.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/focus.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/hypertext/controllers/posts.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -136,7 +145,8 @@
     <MESSAGE value=":bug: Bug fixes" />
     <MESSAGE value=":sparkles: Audio &amp; Video support" />
     <MESSAGE value=":sparkles: Can view post author avatar and description" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Can view post author avatar and description" />
+    <MESSAGE value=":bug: Fix attachment player wrong position" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Fix attachment player wrong position" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

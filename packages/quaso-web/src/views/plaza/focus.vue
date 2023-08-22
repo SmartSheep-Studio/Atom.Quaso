@@ -3,13 +3,9 @@
     <n-spin :show="reverting">
       <n-card class="rounded-t-none">
         <n-page-header
-          :title="post?.account?.nickname"
+          :title="`Post #${post?.id}`"
           @back="$router.back()"
         >
-          <template #avatar>
-            <n-avatar :src="`/srv/subapps/quaso${post?.author?.avatar_url}`" />
-          </template>
-
           <template #header>
             <n-breadcrumb>
               <n-breadcrumb-item @click="$router.push({ name: 'plaza' })">Plaza</n-breadcrumb-item>
@@ -18,27 +14,10 @@
           </template>
 
           <template #subtitle>
-            <n-space size="small">
-              <n-tag
-                v-if="post?.author?.id === $principal.account.id"
-                size="small"
-                type="warning"
-                :bordered="false"
-              >
-                You
-              </n-tag>
-              <n-tag class="capitalize" size="small" type="primary" :bordered="false">
-                {{ post?.type }}
-              </n-tag>
-              <n-tag
-                v-for="tag in post?.tags"
-                size="small"
-                type="info"
-                :bordered="false"
-              >
-                {{ tag }}
-              </n-tag>
-            </n-space>
+            <div class="flex gap-1">
+              <div>{{ new Date(post?.published_at).toLocaleString() }}</div>
+              <div v-if="post?.is_edited">(Edited)</div>
+            </div>
           </template>
 
           <template #extra>
@@ -52,80 +31,12 @@
 
         <n-divider class="inset-divider" />
 
-        <n-thing>
-          <div>
-            <vue-markdown :source="post?.content ?? ''" />
-          </div>
-
-          <n-space vertical class="mt-4">
-            <n-card content-style="padding: 0" class="max-w-[800px]" v-for="img in post?.attachments">
-              <attachment-player :src="img" :key="img" />
-            </n-card>
-          </n-space>
-
-          <div class="mt-2" v-if="post?.belong_id != null">
-            <n-alert class="post-reply-tips" :show-icon="false">
-              This post is replying
-              <router-link :to="{ name: 'plaza.focus', params: { post: post?.belong_id } }" @click.stop>
-                #{{ post?.belong_id }}
-              </router-link>
-            </n-alert>
-          </div>
-
-          <n-card size="small" class="mb-1 mt-2" content-style="padding: 8px" embedded>
-            <div class="flex justify-around">
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button quaternary size="small" @click.stop="replyPost(post)">
-                    <template #icon>
-                      <n-icon :component="ReplyRound" />
-                    </template>
-                    {{ post?.comment_count }}
-                  </n-button>
-                </template>
-                Reply
-              </n-tooltip>
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button
-                    quaternary
-                    size="small"
-                    :type="post?.is_liked ? 'primary' : 'empty'"
-                    @click.stop="like(post)"
-                  >
-                    <template #icon>
-                      <n-icon :component="ThumbUpRound" />
-                    </template>
-                    {{ post?.like_count }}
-                  </n-button>
-                </template>
-                Like
-              </n-tooltip>
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button
-                    quaternary
-                    size="small"
-                    :type="post?.is_disliked ? 'primary' : 'empty'"
-                    @click.stop="dislike(post)"
-                  >
-                    <template #icon>
-                      <n-icon :component="ThumbDownRound" />
-                    </template>
-                    {{ post?.dislike_count }}
-                  </n-button>
-                </template>
-                Dislike
-              </n-tooltip>
-              <n-button quaternary size="small" @click.stop="sharePost(post)">
-                <template #icon>
-                  <n-icon :component="ShareRound" />
-                </template>
-                Share
-              </n-button>
-            </div>
-          </n-card>
-        </n-thing>
+        <post-player
+          v-if="!reverting"
+          :post="post"
+          @reply="replyPost(post)"
+          @share="sharePost(post)"
+        />
       </n-card>
 
       <div class="py-4 px-4">
@@ -137,102 +48,11 @@
           v-for="item in post?.comments"
           @click="$router.push({ name: 'plaza.focus', params: { post: item.id } })"
         >
-          <n-thing>
-            <template #avatar>
-              <n-avatar :src="`/srv/subapps/quaso${item.author.avatar_url}`" />
-            </template>
-
-            <template #header>
-              <div>
-                <div>{{ item.author.nickname }}</div>
-                <div class="text-xs text-gray-600 mb-1">{{ item.author.description }}</div>
-              </div>
-            </template>
-
-            <n-space size="small" class="mt-[-12px]">
-              <n-tag
-                v-if="item.author.id === $principal.account.id"
-                type="warning"
-                size="small"
-                :bordered="false"
-              >
-                You
-              </n-tag>
-              <n-tag class="capitalize" size="small" type="primary" :bordered="false">
-                {{ item.type }}
-              </n-tag>
-              <n-tag
-                v-for="tag in item.tags"
-                size="small"
-                type="info"
-                :bordered="false"
-              >
-                {{ tag }}
-              </n-tag>
-            </n-space>
-
-            <div>
-              <vue-markdown :source="item.content" />
-            </div>
-
-            <n-space vertical class="mt-4">
-              <attachment-player v-for="img in item.attachments" :src="img" :key="img" />
-            </n-space>
-
-            <n-card size="small" class="mb-1 mt-2" content-style="padding: 8px" embedded>
-              <div class="flex justify-around">
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <n-button quaternary size="small" @click.stop="replyPost(item)">
-                      <template #icon>
-                        <n-icon :component="ReplyRound" />
-                      </template>
-                      {{ item.comment_count }}
-                    </n-button>
-                  </template>
-                  Reply
-                </n-tooltip>
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <n-button
-                      quaternary
-                      size="small"
-                      :type="item.is_liked ? 'primary' : 'empty'"
-                      @click.stop="like(item)"
-                    >
-                      <template #icon>
-                        <n-icon :component="ThumbUpRound" />
-                      </template>
-                      {{ item.like_count }}
-                    </n-button>
-                  </template>
-                  Like
-                </n-tooltip>
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <n-button
-                      quaternary
-                      size="small"
-                      :type="item.is_disliked ? 'primary' : 'empty'"
-                      @click.stop="dislike(item)"
-                    >
-                      <template #icon>
-                        <n-icon :component="ThumbDownRound" />
-                      </template>
-                      {{ item.dislike_count }}
-                    </n-button>
-                  </template>
-                  Dislike
-                </n-tooltip>
-                <n-button quaternary size="small" @click.stop="sharePost(item)">
-                  <template #icon>
-                    <n-icon :component="ShareRound" />
-                  </template>
-                  Share
-                </n-button>
-              </div>
-            </n-card>
-          </n-thing>
+          <post-player
+            :post="item"
+            @reply="replyPost(item)"
+            @share="sharePost(item)"
+          />
         </n-list-item>
       </n-list>
       <n-list bordered class="rounded-none" v-else>
@@ -252,9 +72,7 @@ import { useDialog, useMessage } from "naive-ui"
 import { useI18n } from "vue-i18n"
 import { usePosts } from "@/stores/posts"
 import { usePrincipal } from "@/stores/principal"
-import { ReplyRound, ShareRound, ThumbDownRound, ThumbUpRound } from "@vicons/material"
-import VueMarkdown from "vue-markdown-render"
-import AttachmentPlayer from "@/components/player/attachment-player.vue"
+import PostPlayer from "@/components/player/post-player.vue"
 
 const { t } = useI18n()
 
@@ -267,7 +85,7 @@ const $dialog = useDialog()
 const $message = useMessage()
 const $principal = usePrincipal()
 
-const reverting = ref(false)
+const reverting = ref(true)
 
 const post = ref<any>({})
 
@@ -318,32 +136,6 @@ async function fetch() {
     $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
   } finally {
     reverting.value = false
-  }
-}
-
-async function like(item: any) {
-  try {
-    $posts.isReverting = true
-    const res = await http.post(`/api/posts/${item.id}/like`)
-    await fetch()
-    $message.success(res.status === 200 ? "Successfully liked" : "Successfully cancelled like")
-  } catch (e: any) {
-    $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
-  } finally {
-    $posts.isReverting = false
-  }
-}
-
-async function dislike(item: any) {
-  try {
-    $posts.isReverting = true
-    const res = await http.post(`/api/posts/${item.id}/dislike`)
-    await fetch()
-    $message.success(res.status === 200 ? "Successfully disliked" : "Successfully cancelled dislike")
-  } catch (e: any) {
-    $message.error(t("common.feedback.unknown-error", [e.response.body ?? e.message]))
-  } finally {
-    $posts.isReverting = false
   }
 }
 
