@@ -16,6 +16,7 @@ type Post struct {
 	IpAddress   string                      `json:"ip_address"`
 	IsEdited    bool                        `json:"is_edited"`
 	IsHidden    bool                        `json:"is_hidden"`
+	IsPinned    bool                        `json:"is_pinned"`
 	Comments    []Post                      `json:"comments" gorm:"foreignKey:BelongID"`
 	Likes       []Like                      `json:"likes" gorm:"foreignKey:PostID"`
 	Dislikes    []Dislike                   `json:"dislikes" gorm:"foreignKey:PostID"`

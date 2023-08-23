@@ -1,7 +1,12 @@
 <template>
   <n-thing>
     <template #avatar>
-      <n-avatar color="transparent" :src="`/srv/subapps/quaso${props.post.author.avatar_url}`" />
+      <n-avatar
+        class="cursor-pointer"
+        color="transparent"
+        :src="`/srv/subapps/quaso${props.post.author.avatar_url}`"
+        @click.stop="$router.push({ name:'plaza.account.info', params: { account: props.post.account_id } })"
+      />
     </template>
 
     <template #header>
@@ -35,6 +40,15 @@
 
     <div>
       <vue-markdown :source="props.post.content" />
+    </div>
+
+    <div class="mt-2" v-if="post?.belong_id != null" @click.stop>
+      <n-alert class="post-reply-tips" :show-icon="false">
+        This post is replying
+        <router-link :to="{ name: 'plaza.focus', params: { post: post?.belong_id } }" @click.stop>
+          #{{ post?.belong_id }}
+        </router-link>
+      </n-alert>
     </div>
 
     <n-space vertical class="mt-4">

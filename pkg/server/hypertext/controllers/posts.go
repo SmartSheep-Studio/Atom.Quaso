@@ -314,6 +314,7 @@ func (v *PostController) create(c *fiber.Ctx) error {
 		Scope       *string    `json:"scope"`
 		Tags        []string   `json:"tags"`
 		Attachments []string   `json:"attachments"`
+		IsPinned    bool       `json:"is_pinned"`
 		BelongTo    *uint      `json:"belong_to"`
 		PublishedAt *time.Time `json:"published_at"`
 	}
@@ -332,6 +333,7 @@ func (v *PostController) create(c *fiber.Ctx) error {
 		IpAddress:   c.IP(),
 		IsHidden:    false,
 		IsEdited:    false,
+		IsPinned:    req.IsPinned,
 		AccountID:   u.ID,
 	}
 
@@ -360,6 +362,7 @@ func (v *PostController) update(c *fiber.Ctx) error {
 		Scope       *string    `json:"scope"`
 		Tags        []string   `json:"tags"`
 		Attachments []string   `json:"attachments"`
+		IsPinned    bool       `json:"is_pinned"`
 		PublishedAt *time.Time `json:"published_at"`
 	}
 
@@ -384,6 +387,7 @@ func (v *PostController) update(c *fiber.Ctx) error {
 	post.Content = req.Content
 	post.PublishedAt = lo.Ternary(req.PublishedAt == nil, time.Now(), lo.FromPtr(req.PublishedAt))
 	post.IsEdited = true
+	post.IsPinned = req.IsPinned
 
 	if err := v.db.Save(&post).Error; err != nil {
 		return hyperutils.ErrorParser(err)
