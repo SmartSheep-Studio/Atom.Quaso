@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="isUnderShadow ? 'h-max' : 'h-full'" class="overflow-auto hide-scrollbar">
+    <div :class="isUnderShadow ? 'h-[100vh]' : 'h-full'" class="overflow-auto hide-scrollbar">
       <surfing ref="surfingInst" @reply="replyPost" @share="sharePost" />
     </div>
   </div>

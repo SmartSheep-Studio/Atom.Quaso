@@ -49,7 +49,6 @@ declare module 'vue' {
     NUploadDragger: typeof import('naive-ui')['NUploadDragger']
     PostPlayer: typeof import('./src/components/player/post-player.vue')['default']
     PostWidget: typeof import('./src/components/player/post-widget.vue')['default']
-    PostWidgets: typeof import('./src/components/player/post-widgets.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

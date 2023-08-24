@@ -1,5 +1,5 @@
 <template>
-  <div :class="isUnderShadow ? 'max-h-max' : 'max-h-full'">
+  <div class="max-h-[100vh]">
     <n-card size="small" class="rounded-none" style="border-bottom: 0">
       <div class="flex">
         <n-select
@@ -59,23 +59,10 @@ const data = computed(() => $posts.data)
 onMounted(() => {
   $posts.fetch()
 })
-
-// Use for dynamic calculate height
-const isUnderShadow = computed(() => {
-  return (window as any).__POWERED_BY_WUJIE__ != null
-})
 </script>
 
 <style>
 .post-reply-tips .n-alert-body {
   padding: 12px;
-}
-
-.max-h-full {
-  height: 100vh;
-}
-
-.max-h-max {
-  height: calc(100vh - 72px);
 }
 </style>
