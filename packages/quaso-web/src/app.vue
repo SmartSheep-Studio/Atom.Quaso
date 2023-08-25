@@ -29,7 +29,7 @@ const themeOverrides = {
     primaryColorPressed: "#C04747FF",
     primaryColorSuppl: "#A84141FF"
   }
-}``
+}
 </script>
 
 <style>

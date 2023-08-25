@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":arrow_up: Support Bedrock new layout">
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":bug: Bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/app.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/app.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/landing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/landing.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +136,6 @@
     <MESSAGE value=":bug: Fix loading web ui" />
     <MESSAGE value=":bug: Remove PWA to fix loading web ui" />
     <MESSAGE value=":bug: Fix comment author display issue" />
-    <MESSAGE value=":bug: Bug fixes" />
     <MESSAGE value=":sparkles: Audio &amp; Video support" />
     <MESSAGE value=":sparkles: Can view post author avatar and description" />
     <MESSAGE value=":bug: Fix attachment player wrong position" />
@@ -147,7 +145,8 @@
     <MESSAGE value=":ambulance: Fix request mapping issue" />
     <MESSAGE value=":sparkles: Subscribe" />
     <MESSAGE value=":arrow_up: Support Bedrock new layout" />
-    <option name="LAST_COMMIT_MESSAGE" value=":arrow_up: Support Bedrock new layout" />
+    <MESSAGE value=":bug: Bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
