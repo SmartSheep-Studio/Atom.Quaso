@@ -21,7 +21,6 @@
 <script lang="ts" setup>
 import DataProvider from "@/data-provider.vue";
 import Gatekeeper from "@/components/global/gatekeeper.vue";
-import { computed } from "vue";
 
 const themeOverrides = {
   common: {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="isUnderShadow ? 'h-[100vh]' : 'h-full'" class="overflow-auto hide-scrollbar">
+    <div class="overflow-auto hide-scrollbar h-[100vh]">
       <surfing ref="surfingInst" @reply="replyPost" @share="sharePost" />
     </div>
   </div>
@@ -25,11 +25,6 @@ function sharePost(parent: any) {
     content: `Shared a post [${parent.content.substring(0, 5)}...](/srv/subapps/quaso/plaza/${parent.id})`
   })
 }
-
-// Use for dynamic calculate height
-const isUnderShadow = computed(() => {
-  return (window as any).__POWERED_BY_WUJIE__ != null
-})
 </script>
 
 <style>

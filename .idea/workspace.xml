@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":sparkles: Subscribe">
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":arrow_up: Support Bedrock new layout">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/components.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/app.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/app.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/data-provider.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/data-provider.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/actions/surfing.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/landing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/views/plaza/landing.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -149,7 +146,8 @@
     <MESSAGE value=":boom: Change like &amp; subscription database arch" />
     <MESSAGE value=":ambulance: Fix request mapping issue" />
     <MESSAGE value=":sparkles: Subscribe" />
-    <option name="LAST_COMMIT_MESSAGE" value=":sparkles: Subscribe" />
+    <MESSAGE value=":arrow_up: Support Bedrock new layout" />
+    <option name="LAST_COMMIT_MESSAGE" value=":arrow_up: Support Bedrock new layout" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
