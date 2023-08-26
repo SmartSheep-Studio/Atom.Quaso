@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":bug: Bug fixes">
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":ambulance: Syntax error hotfix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/quaso-web/src/app.vue" beforeDir="false" afterPath="$PROJECT_DIR$/packages/quaso-web/src/app.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +48,7 @@
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/LittleSheep/Projects/Code/Atom/Quaso/packages/quaso-web/src/assets&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/LittleSheep/Projects/Code/CodingLand&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
@@ -121,7 +120,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":tada: Start develop!" />
     <MESSAGE value=":sparkles: Add more features" />
     <MESSAGE value=":tada: Init" />
     <MESSAGE value=":lipstick: Optimize grid" />
@@ -146,7 +144,8 @@
     <MESSAGE value=":sparkles: Subscribe" />
     <MESSAGE value=":arrow_up: Support Bedrock new layout" />
     <MESSAGE value=":bug: Bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value=":bug: Bug fixes" />
+    <MESSAGE value=":ambulance: Syntax error hotfix" />
+    <option name="LAST_COMMIT_MESSAGE" value=":ambulance: Syntax error hotfix" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
