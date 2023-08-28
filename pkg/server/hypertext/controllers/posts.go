@@ -85,7 +85,7 @@ func (v *PostController) list(c *fiber.Ctx) error {
 			return hyperutils.ErrorParser(err)
 		} else {
 			tx.Where("account_id IN ?", lo.Map(subscriptions, func(item models.Subscription, index int) uint {
-				return item.ID
+				return item.ProviderID
 			}))
 		}
 
