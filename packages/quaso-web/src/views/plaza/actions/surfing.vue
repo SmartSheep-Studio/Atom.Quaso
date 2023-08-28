@@ -1,31 +1,31 @@
 <template>
   <div class="max-h-[100vh]">
+    <n-card class="rounded-none" content-style="padding: 4px; padding-bottom: 0px" style="border-bottom: 0">
+      <n-tabs type="bar" justify-content="space-around" v-model:value="$posts.filterOptions.channel">
+        <n-tab name="news">
+          News
+        </n-tab>
+        <n-tab name="following">
+          Following
+        </n-tab>
+      </n-tabs>
+    </n-card>
     <n-card size="small" class="rounded-none" style="border-bottom: 0">
       <div class="flex">
-        <n-select
-          v-model:value="$posts.filterOptions.type"
-          :options="[
-            { label: 'All', value: 'all' },
-            { label: 'Text', value: 'text' },
-            { label: 'Image', value: 'image' },
-            { label: 'Audio', value: 'audio' },
-            { label: 'Video', value: 'video' },
-          ]"
-        />
+        <n-select v-model:value="$posts.filterOptions.type" :options="[
+          { label: 'All', value: 'all' },
+          { label: 'Text', value: 'text' },
+          { label: 'Image', value: 'image' },
+          { label: 'Audio', value: 'audio' },
+          { label: 'Video', value: 'video' },
+        ]" />
       </div>
     </n-card>
 
     <n-spin :show="$posts.isReverting">
       <n-list v-if="data.posts.length > 0" bordered hoverable class="rounded-none" style="--n-border-radius: 0">
-        <n-list-item
-          v-for="item in data.posts"
-          @click="$router.push({ name: 'plaza.focus', params: { post: item.id } })"
-        >
-          <post-player
-            :post="item"
-            @reply="emits('reply', item)"
-            @share="emits('share', item)"
-          />
+        <n-list-item v-for="item in data.posts" @click="$router.push({ name: 'plaza.focus', params: { post: item.id } })">
+          <post-player :post="item" @reply="emits('reply', item)" @share="emits('share', item)" />
         </n-list-item>
       </n-list>
       <n-list bordered class="rounded-none" v-else>

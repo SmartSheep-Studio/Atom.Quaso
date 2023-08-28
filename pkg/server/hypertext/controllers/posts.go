@@ -75,10 +75,33 @@ func (v *PostController) list(c *fiber.Ctx) error {
 
 	var postCount int64
 	var posts []models.Post
-	if err := tx.Model(&models.Post{}).Count(&postCount).Error; err != nil {
-		return hyperutils.ErrorParser(err)
-	} else if err := tx.Offset(c.QueryInt("skip", 0)).Limit(5).Find(&posts).Error; err != nil {
-		return hyperutils.ErrorParser(err)
+	if c.Query("channel") == "following" {
+		// Channel `Following`
+		// Only display user subscribed authors
+
+		// Filting subscriptions
+		var subscriptions []models.Subscription
+		if err := v.db.Where("account_id = ?", u.ID).Find(&subscriptions).Error; err != nil {
+			return hyperutils.ErrorParser(err)
+		} else {
+			tx.Where("account_id IN ?", lo.Map(subscriptions, func(item models.Subscription, index int) uint {
+				return item.ID
+			}))
+		}
+
+		if err := tx.Model(&models.Post{}).Count(&postCount).Error; err != nil {
+			return hyperutils.ErrorParser(err)
+		} else if err := tx.Offset(c.QueryInt("skip", 0)).Limit(5).Find(&posts).Error; err != nil {
+			return hyperutils.ErrorParser(err)
+		}
+	} else {
+		// Channel `News`
+		// Display everything on the instance
+		if err := tx.Model(&models.Post{}).Count(&postCount).Error; err != nil {
+			return hyperutils.ErrorParser(err)
+		} else if err := tx.Offset(c.QueryInt("skip", 0)).Limit(5).Find(&posts).Error; err != nil {
+			return hyperutils.ErrorParser(err)
+		}
 	}
 
 	var authors []models.Account
