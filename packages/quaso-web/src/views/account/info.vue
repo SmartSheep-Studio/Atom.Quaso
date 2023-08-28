@@ -2,15 +2,9 @@
   <div>
     <n-spin :show="reverting">
       <n-card class="rounded-none" style="border-bottom: 0">
-        <n-page-header
-          :title="account?.user?.nickname"
-          @back="$router.back()"
-        >
+        <n-page-header :title="account?.user?.nickname" @back="$router.back()">
           <template #avatar>
-            <n-avatar
-              color="transparent"
-              :src="`/srv/subapps/quaso${account?.user?.avatar_url}`"
-            />
+            <n-avatar color="transparent" :src="`/srv/subapps/quaso${account?.user?.avatar_url}`" />
           </template>
 
           <template #header>
@@ -27,28 +21,19 @@
           <template #extra>
             <n-space>
               <div>
-                <n-button
-                  secondary
-                  size="small"
-                  type="tertiary"
-                  :loading="submitting"
-                  @click="subscribe"
-                  v-if="account?.is_subscribed"
-                >
+                <n-button secondary size="small" type="tertiary" :loading="submitting" @click="subscribe"
+                  v-if="account?.is_subscribed">
                   <template #icon>
                     <n-icon :component="CheckRound" />
                   </template>
 
                   Subscribed
                 </n-button>
-                <n-button
-                  secondary
-                  size="small"
-                  type="primary"
-                  :loading="submitting"
-                  @click="subscribe"
-                  v-else
-                >
+                <n-button secondary size="small" type="primary" :loading="submitting" @click="subscribe" v-else>
+                  <template #icon>
+                    <n-icon :component="PlusRound" />
+                  </template>
+
                   Subscribe
                 </n-button>
               </div>
@@ -81,30 +66,21 @@
       <div>
         <n-card size="small" class="rounded-none" style="border-bottom: 0">
           <div class="flex">
-            <n-select
-              v-model:value="postFilterOptions.type"
-              :options="[
-                { label: 'All', value: 'all' },
-                { label: 'Text', value: 'text' },
-                { label: 'Image', value: 'image' },
-                { label: 'Audio', value: 'audio' },
-                { label: 'Video', value: 'video' },
-              ]"
-            />
+            <n-select v-model:value="postFilterOptions.type" :options="[
+              { label: 'All', value: 'all' },
+              { label: 'Text', value: 'text' },
+              { label: 'Image', value: 'image' },
+              { label: 'Audio', value: 'audio' },
+              { label: 'Video', value: 'video' },
+            ]" />
           </div>
         </n-card>
 
         <div>
           <n-list v-if="posts?.posts.length > 0" bordered hoverable class="rounded-none" style="--n-border-radius: 0">
-            <n-list-item
-              v-for="item in posts?.posts"
-              @click="$router.push({ name: 'plaza.focus', params: { post: item.id } })"
-            >
-              <post-player
-                :post="item"
-                @reply="replyPost(item)"
-                @share="sharePost(item)"
-              />
+            <n-list-item v-for="item in posts?.posts"
+              @click="$router.push({ name: 'plaza.focus', params: { post: item.id } })">
+              <post-player :post="item" @reply="replyPost(item)" @share="sharePost(item)" />
             </n-list-item>
           </n-list>
           <n-list bordered class="rounded-none" v-else>
@@ -125,7 +101,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CheckRound } from "@vicons/material"
+import { CheckRound, PlusRound } from "@vicons/material"
 import { computed, onMounted, reactive, ref, watch } from "vue"
 import { http } from "@/utils/http"
 import { useRoute } from "vue-router"

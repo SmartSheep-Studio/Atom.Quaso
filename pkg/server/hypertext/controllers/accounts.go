@@ -126,9 +126,10 @@ func (v *AccountController) self(c *fiber.Ctx) error {
 	}
 
 	var subscribed = false
-	if err := v.db.Model(&models.Subscription{}).Where("account_id = ? AND provider_id = ?", u.ID, account.ID).Count(&subscriptionCount).Error; err != nil {
+	var uSubscriptionCount int64
+	if err := v.db.Model(&models.Subscription{}).Where("account_id = ? AND provider_id = ?", u.ID, account.ID).Count(&uSubscriptionCount).Error; err != nil {
 		return hyperutils.ErrorParser(err)
-	} else if subscriptionCount > 0 {
+	} else if uSubscriptionCount > 0 {
 		subscribed = true
 	}
 
