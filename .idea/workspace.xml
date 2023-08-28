@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":ambulance: Syntax error hotfix">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="b38b3878-a7d8-4e76-8c9a-9e4f28d7d408" name="更改" comment=":pencil2: Fix typo" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,7 +118,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=":sparkles: Add more features" />
     <MESSAGE value=":tada: Init" />
     <MESSAGE value=":lipstick: Optimize grid" />
     <MESSAGE value=":sparkles: Reply" />
@@ -145,7 +142,8 @@
     <MESSAGE value=":arrow_up: Support Bedrock new layout" />
     <MESSAGE value=":bug: Bug fixes" />
     <MESSAGE value=":ambulance: Syntax error hotfix" />
-    <option name="LAST_COMMIT_MESSAGE" value=":ambulance: Syntax error hotfix" />
+    <MESSAGE value=":pencil2: Fix typo" />
+    <option name="LAST_COMMIT_MESSAGE" value=":pencil2: Fix typo" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
